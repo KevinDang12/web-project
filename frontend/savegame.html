@@ -10,14 +10,11 @@
   <div class="save-game-container">
     <h2>Save Chess Game</h2>
 
-    <!-- Buttons to navigate and load games -->
-    <div class="action-buttons">
-      <button onclick="goBack()">Back</button>
-      <button onclick="loadSavedGames()">Load Saved Games</button>
-    </div>
+    <!-- Button to navigate to Load Game page -->
+    <button onclick="goToLoadGame()">Load Game</button>
 
     <!-- Player Input Form -->
-    <form id="gameForm" class="game-form">
+    <form id="gameForm">
       <label for="player1">Player 1 Name:</label>
       <input type="text" id="player1" name="player1" required>
       
@@ -26,24 +23,6 @@
       
       <input type="button" value="Save Game" onclick="saveGame()">
     </form>
-
-    <!-- Table to display saved game details -->
-    <div class="saved-games">
-      <h3>Saved Games</h3>
-      <table id="gameTable">
-        <thead>
-          <tr>
-            <th>Player 1</th>
-            <th>Player 2</th>
-            <th>Game Time</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Saved games will appear here -->
-        </tbody>
-      </table>
-    </div>
   </div>
 
   <script src="savegame.js"></script>
