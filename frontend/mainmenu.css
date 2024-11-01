@@ -1,0 +1,22 @@
+.mainmenu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 80vh;
+}
+
+button {
+    padding: 10px;
+    width: 300px;
+    height: 100px;
+    background-color: #f2f2f2;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+button:hover {
+    background-color: #e6e6e6;
+}

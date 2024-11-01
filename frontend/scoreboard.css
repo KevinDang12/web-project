@@ -1,0 +1,22 @@
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    width: 200px;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: center;  /* Aligns horizontally */
+    align-items: center;      /* Aligns vertically */
+    height: 90vh;
+}
+
+table {
+    width: 50%;
+    margin: auto;
+}

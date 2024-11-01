@@ -1,0 +1,35 @@
+.newgame {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 80vh;
+}
+
+.input {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+#submit {
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    width: 100px;
+    height: 50px;
+    background-color: #f2f2f2;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+}
+
+#submit:hover {
+    background-color: #e6e6e6;
+}
