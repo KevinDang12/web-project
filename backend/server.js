@@ -1,8 +1,44 @@
 const express  = require('express');
 const app = express();
+const fs = require('fs');
+
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.status(200).send('The server is running');
+});
+
+/**
+ * GET Request Get the user by the email
+ */
+app.get('/api/users/:email', (req, res) => {
+    const users = read("users.json");
+    if (users === null) { // 404 object not found
+        res.status(404).send('The file does not exist.');
+    }
+    const user = users.find((u) => u.email === req.params.email);
+
+    if (!user) { // 404 object not found
+        res.status(404).send('The user with the given email was not found.');
+    } else {
+        res.send(user.email);
+    }
+});
+
+/**
+ * POST Request Save a user to the save file
+ */
+app.post('/api/users', (req, res) => {
+    let users = [];
+    let user = req.body;
+
+    if (fs.existsSync("users.json")) {
+        users = read("users.json");
+    }
+
+    users.push(user);
+    write(users, "users.json");
+    res.send(user);
 });
 
 /**
