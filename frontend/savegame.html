@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Save Chess Game</title>
+  <link rel="stylesheet" href="savegame.css">
+</head>
+<body>
+  <div class="save-game-container">
+    <h2>Save Chess Game</h2>
+
+    <!-- Buttons to navigate and load games -->
+    <div class="action-buttons">
+      <button onclick="goBack()">Back</button>
+      <button onclick="loadSavedGames()">Load Saved Games</button>
+    </div>
+
+    <!-- Player Input Form -->
+    <form id="gameForm" class="game-form">
+      <label for="player1">Player 1 Name:</label>
+      <input type="text" id="player1" name="player1" required>
+      
+      <label for="player2">Player 2 Name:</label>
+      <input type="text" id="player2" name="player2" required>
+      
+      <input type="button" value="Save Game" onclick="saveGame()">
+    </form>
+
+    <!-- Table to display saved game details -->
+    <div class="saved-games">
+      <h3>Saved Games</h3>
+      <table id="gameTable">
+        <thead>
+          <tr>
+            <th>Player 1</th>
+            <th>Player 2</th>
+            <th>Game Time</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Saved games will appear here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="savegame.js"></script>
+</body>
+</html>
