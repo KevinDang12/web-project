@@ -15,7 +15,7 @@
     gap: 20px;
 }
 
-#submit {
+#start-game {
     border-radius: 5px;
     margin-top: 10px;
     margin-left: auto;
@@ -30,6 +30,6 @@
     display: flex;
 }
 
-#submit:hover {
+#start-game:hover {
     background-color: #e6e6e6;
 }

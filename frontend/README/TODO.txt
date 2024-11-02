@@ -1,0 +1,4 @@
+- Add Signout button on all pages
+- functionality to check whether user is signed in or not.
+    - If signed in, don't allow another user to login
+    - If signed out, don't allow user to save or load Game
