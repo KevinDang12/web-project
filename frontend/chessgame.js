@@ -46,7 +46,7 @@ function initializeBoard() {
                 pieceImg.src = pieceImages[piece];
                 pieceImg.alt = piece;
                 pieceImg.className = 'piece';
-                pieceImg.draggable = true; // Enable drag-and-drop
+                pieceImg.draggable = true;
                 pieceImg.dataset.piece = piece;
                 pieceImg.dataset.row = row;
                 pieceImg.dataset.col = col;
@@ -75,33 +75,120 @@ function dragStart(event) {
     selectedPiece = event.target;
     startRow = parseInt(selectedPiece.dataset.row);
     startCol = parseInt(selectedPiece.dataset.col);
-    setTimeout(() => (selectedPiece.style.display = 'none'), 0); // Hide element for drag effect
+    selectedPiece.style.opacity = '0.5'; // Set opacity for drag effect
+    console.log("Drag started for piece:", selectedPiece.dataset.piece, "at", startRow, startCol); // Debug log
 }
 
 // Drag end event
 function dragEnd() {
-    setTimeout(() => (selectedPiece.style.display = 'block'), 0);
-    selectedPiece = null;
+    if (selectedPiece) {
+        selectedPiece.style.opacity = '1'; // Reset opacity
+        console.log("Drag ended for piece:", selectedPiece.dataset.piece); // Debug log
+        selectedPiece = null;
+    }
 }
 
 // Drag over event
 function dragOver(event) {
-    event.preventDefault();
+    event.preventDefault(); // Allow drop
 }
 
 // Drop event
+// Drop event (updated to handle all pieces)
+// Drop event (updated to handle all pieces for both colors)
 function drop(event) {
     event.preventDefault();
-    const endRow = parseInt(event.target.dataset.row);
-    const endCol = parseInt(event.target.dataset.col);
 
-    // Only handle moves for white pawns as an example
-    if (selectedPiece.dataset.piece === 'P' && isValidPawnMove(startRow, startCol, endRow, endCol, 'P')) {
+    let targetSquare = event.target;
+    if (!targetSquare.classList.contains('square')) {
+        targetSquare = targetSquare.closest('.square');
+    }
+
+    if (!targetSquare) return;
+
+    const endRow = parseInt(targetSquare.dataset.row);
+    const endCol = parseInt(targetSquare.dataset.col);
+
+    const pieceType = selectedPiece.dataset.piece;
+    const isValidMove = 
+        (pieceType === 'P' && isValidPawnMove(startRow, startCol, endRow, endCol, 'P')) ||
+        (pieceType === 'p' && isValidPawnMove(startRow, startCol, endRow, endCol, 'p')) ||
+        (pieceType === 'R' && isValidRookMove(startRow, startCol, endRow, endCol)) ||
+        (pieceType === 'r' && isValidRookMove(startRow, startCol, endRow, endCol)) ||
+        (pieceType === 'N' && isValidKnightMove(startRow, startCol, endRow, endCol)) ||
+        (pieceType === 'n' && isValidKnightMove(startRow, startCol, endRow, endCol)) ||
+        (pieceType === 'B' && isValidBishopMove(startRow, startCol, endRow, endCol)) ||
+        (pieceType === 'b' && isValidBishopMove(startRow, startCol, endRow, endCol)) ||
+        (pieceType === 'Q' && isValidQueenMove(startRow, startCol, endRow, endCol)) ||
+        (pieceType === 'q' && isValidQueenMove(startRow, startCol, endRow, endCol)) ||
+        (pieceType === 'K' && isValidKingMove(startRow, startCol, endRow, endCol)) ||
+        (pieceType === 'k' && isValidKingMove(startRow, startCol, endRow, endCol));
+
+    if (isValidMove) {
         movePiece(selectedPiece, startRow, startCol, endRow, endCol);
     } else {
         alert('Invalid move for this piece.');
     }
 }
+
+
+// Function for rook movement (horizontal or vertical)
+function isValidRookMove(startRow, startCol, endRow, endCol) {
+    if (startRow !== endRow && startCol !== endCol) return false;
+
+    const rowDirection = endRow > startRow ? 1 : endRow < startRow ? -1 : 0;
+    const colDirection = endCol > startCol ? 1 : endCol < startCol ? -1 : 0;
+
+    let row = startRow + rowDirection;
+    let col = startCol + colDirection;
+
+    while (row !== endRow || col !== endCol) {
+        if (initialBoard[row][col]) return false;
+        row += rowDirection;
+        col += colDirection;
+    }
+
+    return true;
+}
+
+// Function for knight movement (L-shape)
+function isValidKnightMove(startRow, startCol, endRow, endCol) {
+    const rowDiff = Math.abs(startRow - endRow);
+    const colDiff = Math.abs(startCol - endCol);
+    return (rowDiff === 2 && colDiff === 1) || (rowDiff === 1 && colDiff === 2);
+}
+
+// Function for bishop movement (diagonal)
+function isValidBishopMove(startRow, startCol, endRow, endCol) {
+    if (Math.abs(startRow - endRow) !== Math.abs(startCol - endCol)) return false;
+
+    const rowDirection = endRow > startRow ? 1 : -1;
+    const colDirection = endCol > startCol ? 1 : -1;
+
+    let row = startRow + rowDirection;
+    let col = startCol + colDirection;
+
+    while (row !== endRow && col !== endCol) {
+        if (initialBoard[row][col]) return false;
+        row += rowDirection;
+        col += colDirection;
+    }
+
+    return true;
+}
+
+// Function for queen movement (combines rook and bishop)
+function isValidQueenMove(startRow, startCol, endRow, endCol) {
+    return isValidRookMove(startRow, startCol, endRow, endCol) || isValidBishopMove(startRow, startCol, endRow, endCol);
+}
+
+// Function for king movement (one square in any direction)
+function isValidKingMove(startRow, startCol, endRow, endCol) {
+    const rowDiff = Math.abs(startRow - endRow);
+    const colDiff = Math.abs(startCol - endCol);
+    return rowDiff <= 1 && colDiff <= 1;
+}
+
 
 // Move piece to new position
 function movePiece(piece, startRow, startCol, endRow, endCol) {
@@ -109,14 +196,20 @@ function movePiece(piece, startRow, startCol, endRow, endCol) {
     initialBoard[endRow][endCol] = piece.dataset.piece;
     initialBoard[startRow][startCol] = '';
 
-    // Update piece position on board
+    // Update piece position in DOM
     const endSquare = document.querySelector(`.square[data-row="${endRow}"][data-col="${endCol}"]`);
-    endSquare.appendChild(piece);
-    piece.dataset.row = endRow;
-    piece.dataset.col = endCol;
+    if (endSquare) {
+        endSquare.appendChild(piece); // Move piece to new square
+        piece.dataset.row = endRow;
+        piece.dataset.col = endCol;
+        console.log("Piece moved to:", endRow, endCol); // Debug log
+    } else {
+        console.error("Target square not found.");
+    }
 }
 
-// Validate pawn moves
+// Validate pawn moves (white pawns only as example)
+// Validate pawn moves for both white ('P') and black ('p') pawns
 function isValidPawnMove(startRow, startCol, endRow, endCol, piece) {
     const direction = piece === 'P' ? -1 : 1; // White moves up (-1), black moves down (+1)
     const startingRow = piece === 'P' ? 6 : 1; // White starts on row 6, black on row 1
@@ -150,5 +243,7 @@ function isValidPawnMove(startRow, startCol, endRow, endCol, piece) {
     return false;
 }
 
+
 // Run initialization on page load
 window.onload = initializeBoard;
+
