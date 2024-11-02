@@ -1,3 +1,15 @@
+// Redirect to save game page
+function saveGame() {
+    window.location.href = 'savegame.html';
+}
+
+// Redirect to load game page
+function loadGame() {
+    window.location.href = 'loadgame.html';
+}
+
+
+
 // Board layout using abbreviations for each piece
 const initialBoard = [
     ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],

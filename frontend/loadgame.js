@@ -1,17 +1,8 @@
-// Go back to Save Game page
-function goBackToSaveGame() {
-    window.location.href = 'savegame.html';
-}
-
 // Display saved games from localStorage
 function displaySavedGames() {
     const savedGames = JSON.parse(localStorage.getItem('savedGames')) || [];
-    console.log("Loaded games:", savedGames); // Debug: Check loaded games in console
-
     const loadGameTable = document.getElementById('loadGameTable').getElementsByTagName('tbody')[0];
-
-    // Clear existing rows
-    loadGameTable.innerHTML = '';
+    loadGameTable.innerHTML = ''; // Clear existing rows
 
     // Populate each saved game with a "Load" button
     savedGames.forEach((gameData) => {
@@ -33,9 +24,9 @@ function displaySavedGames() {
 
 // Function to load a specific game
 function loadGame(gameData) {
-    localStorage.setItem('currentGame', JSON.stringify(gameData));
+    localStorage.setItem('currentGame', JSON.stringify(gameData)); // Store selected game
     alert(`Loading game for ${gameData.player1} vs ${gameData.player2} on ${gameData.gameDate} at ${gameData.gameTime}`);
-    window.location.href = 'savegame.html';
+    window.location.href = 'chessgame.html'; // Redirect to main game
 }
 
 // Automatically display saved games on page load
