@@ -31,7 +31,7 @@ app.get('/api/users/:email', (req, res) => {
 /**
  * GET Request Get the user by the email
  */
-app.get('/api/verity_user/:email/:password', (req, res) => {
+app.get('/api/verify_user/:email/:password', (req, res) => {
     const users = read("users.json");
     if (users === null) { // 404 object not found
         res.send(null);

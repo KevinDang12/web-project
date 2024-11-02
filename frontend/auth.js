@@ -21,7 +21,7 @@ document.getElementById('signInForm').addEventListener('submit', async function(
     const email = document.getElementById('signin-email').value;
     const password = document.getElementById('signin-password').value;
 
-    const response = await fetch('http://localhost:5000/api/verity_user/' + email + '/' + password, {
+    const response = await fetch('http://localhost:5000/api/verify_user/' + email + '/' + password, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -33,6 +33,10 @@ document.getElementById('signInForm').addEventListener('submit', async function(
 
     if (!data) {
         alert('Invalid Email or Password');
+    } else {
+        const user = { email: data, signedIn: true };
+        localStorage.setItem('user', JSON.stringify(user));
+        window.location.href = './mainmenu.html';
     }
 });
 
@@ -64,7 +68,10 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Success:', data);
+            alert('User created successfully');
+            const user = { email: data, signedIn: true };
+            localStorage.setItem('user', JSON.stringify(user));
+            window.location.href = './mainmenu.html';
         })
     } else {
         console.log('User already exists');
@@ -72,7 +79,6 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
     }
 });
 
-document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('Forgot Password form submitted'); // Replace with password reset logic
+document.getElementById('signOut').addEventListener('click', function() {
+    localStorage.removeItem('user');
 });
