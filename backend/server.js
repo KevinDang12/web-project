@@ -1,8 +1,10 @@
 const express  = require('express');
 const app = express();
+const cors = require('cors');
 const fs = require('fs');
 
 app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.status(200).send('The server is running');
@@ -14,12 +16,32 @@ app.get('/', (req, res) => {
 app.get('/api/users/:email', (req, res) => {
     const users = read("users.json");
     if (users === null) { // 404 object not found
-        res.status(404).send('The file does not exist.');
+        res.send(null);
     }
     const user = users.find((u) => u.email === req.params.email);
+    console.log(user);
 
     if (!user) { // 404 object not found
-        res.status(404).send('The user with the given email was not found.');
+        res.send(null);
+    } else {
+        res.send(user.email);
+    }
+});
+
+/**
+ * GET Request Get the user by the email
+ */
+app.get('/api/verity_user/:email/:password', (req, res) => {
+    const users = read("users.json");
+    if (users === null) { // 404 object not found
+        res.send(null);
+    }
+    const user = users.find((u) => u.email === req.params.email);
+    console.log(user);
+    console.log(req.params.password);
+
+    if (!user || req.params.password != user.password) { // 404 object not found
+        res.send(null);
     } else {
         res.send(user.email);
     }
@@ -38,7 +60,7 @@ app.post('/api/users', (req, res) => {
 
     users.push(user);
     write(users, "users.json");
-    res.send(user);
+    res.send({user});
 });
 
 /**
