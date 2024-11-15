@@ -64,6 +64,93 @@ app.post('/api/users', (req, res) => {
 });
 
 /**
+ * GET Request Get the saved games by userId
+ */
+app.get('/api/boards/:email', (req, res) => {
+    const boards = read("boards.json");
+    if (boards === null) { // 404 object not found
+        res.send(null);
+    }
+
+    const user = boards.find((u) => u.userId === req.params.email);
+
+    res.send(user.games);
+});
+
+/**
+ * POST Request Save a game to the save file
+ */
+app.post('/api/boards', (req, res) => {
+    let boards = [];
+    let board = req.body;
+
+    let userId = board.userId;
+    let gameId = board.gameId;
+    let userExists = true;
+
+    if (fs.existsSync("boards.json")) {
+        boards = read("boards.json");
+    }
+
+    // Check if the user id exists
+    let user = boards.find((b) => b.userId === userId);
+    if (!user) {
+        userExists = false;
+        user = {
+            userId: userId,
+            games: []
+        }
+    }
+
+    // Check if the game id exists
+    let game = user.games.find((g) => g.gameId === gameId);
+
+    if (!game) {
+        let data = {
+            gameId: gameId,
+            player1: board.player1,
+            player2: board.player2,
+            gameTime: board.gameTime,
+            gameDate: board.gameDate,
+            boardState: board.boardState
+        }
+        user.games.push(data);
+    } else {
+        game.boardState = board.boardState;
+        game.gameTime = board.gameTime;
+        game.gameDate = board.gameDate;
+    }
+
+    if (!userExists) {
+        boards.push(user);
+    }
+    write(boards, "boards.json");
+    res.send({board});
+});
+
+/**
+ * POST Request Save a completed chess game to the save file
+ */
+app.post('/api/chessgames', (req, res) => {
+    let games = [];
+    let game = req.body;
+
+    if (fs.existsSync("scoreboard.json")) {
+        scoreboard = read("scoreboard.json");
+    }
+
+    games.push(game);
+});
+
+/**
+ * GET Request Get a list of scores from the save file
+ */
+app.get('/api/chessgames', (req, res) => {
+    const games = read("scoreboard.json");
+    res.send(games);
+});
+
+/**
  * GET Request to check if the user is authenticated
  */
 // app.get('/api/user/profile', (req, res) => {

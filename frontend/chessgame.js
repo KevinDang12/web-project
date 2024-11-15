@@ -1,5 +1,32 @@
 // Redirect to save game page
 function saveGame() {
+    const chessboard = document.getElementById('chessboard');
+    console.log(chessboard);
+    let board = [];
+
+    for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+            const square = document.querySelector(`.square[data-row="${row}"][data-col="${col}"]`);
+            const piece = square.querySelector('.piece');
+
+            if (piece) {
+                const chessPiece = {
+                    src: pieceImages[piece.dataset.piece],
+                    alt: piece.dataset.piece,
+                    className: piece.className,
+                    draggable: piece.draggable,
+                    piece: piece.dataset.piece,
+                    row: piece.dataset.row,
+                    col: piece.dataset.col
+                }
+                board.push(chessPiece);
+            } else {
+                board.push('');
+            }
+        }
+    }
+    console.log(board);
+    localStorage.setItem('board', JSON.stringify(board));
     window.location.href = 'savegame.html';
 }
 
@@ -7,8 +34,6 @@ function saveGame() {
 function loadGame() {
     window.location.href = 'loadgame.html';
 }
-
-
 
 // Board layout using abbreviations for each piece
 const initialBoard = [

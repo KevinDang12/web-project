@@ -1,4 +1,9 @@
-- Add Signout button on all pages
+- Add Signout button on all pages ^
 - functionality to check whether user is signed in or not.
     - If signed in, don't allow another user to login
     - If signed out, don't allow user to save or load Game
+- Load games for each individual user
+    - Able to get the saved games, but still unable to load the game
+- Save game for each individual user ^
+    - Able to save games for every unique user.
+- Implment win condition and scoreboard saving
