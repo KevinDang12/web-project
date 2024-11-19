@@ -79,6 +79,6 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
     }
 });
 
-document.getElementById('signOut').addEventListener('click', function() {
-    localStorage.removeItem('user');
-});
+// document.getElementById('signOut').addEventListener('click', function() {
+//     localStorage.removeItem('user');
+// });

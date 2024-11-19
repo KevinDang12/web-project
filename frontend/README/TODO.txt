@@ -4,6 +4,7 @@
     - If signed out, don't allow user to save or load Game
 - Load games for each individual user
     - Able to get the saved games, but still unable to load the game
+    - Must save the Piece id instead
 - Save game for each individual user ^
     - Able to save games for every unique user.
 - Implment win condition and scoreboard saving

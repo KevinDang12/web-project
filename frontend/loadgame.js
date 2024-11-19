@@ -69,6 +69,10 @@ async function loadGame(gameData) {
 
     localStorage.setItem('currentGame', JSON.stringify(game)); // Store selected game
     alert(`Loading game for ${game.player1} vs ${game.player2} on ${game.gameDate} at ${game.gameTime}`);
+
+    // add to local storage
+    localStorage.setItem('board', JSON.stringify(game.boardState));
+
     window.location.href = 'chessgame.html'; // Redirect to main game
 }
 

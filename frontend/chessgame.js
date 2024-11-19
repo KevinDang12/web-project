@@ -5,25 +5,18 @@ function saveGame() {
     let board = [];
 
     for (let row = 0; row < 8; row++) {
+        let boardRow = [];
         for (let col = 0; col < 8; col++) {
             const square = document.querySelector(`.square[data-row="${row}"][data-col="${col}"]`);
             const piece = square.querySelector('.piece');
 
             if (piece) {
-                const chessPiece = {
-                    src: pieceImages[piece.dataset.piece],
-                    alt: piece.dataset.piece,
-                    className: piece.className,
-                    draggable: piece.draggable,
-                    piece: piece.dataset.piece,
-                    row: piece.dataset.row,
-                    col: piece.dataset.col
-                }
-                board.push(chessPiece);
+                boardRow.push(piece.dataset.piece);
             } else {
-                board.push('');
+                boardRow.push('');
             }
         }
+        board.push(boardRow);
     }
     console.log(board);
     localStorage.setItem('board', JSON.stringify(board));
@@ -65,6 +58,25 @@ const pieceImages = {
 
 // Initialize the chessboard with pieces
 function initializeBoard() {
+
+    let board = localStorage.getItem('board');
+
+    if (board) {
+        board = JSON.parse(board);
+        console.log(board);
+        let index = 0;
+        for (let row = 0; row < 8; row++) {
+            for (let col = 0; col < 8; col++) {
+                initialBoard[row][col] = board[row][col];
+                index++;
+            }
+        }
+
+        console.log(initialBoard);
+    }
+
+    // console.log(initialBoard);
+
     const chessboard = document.getElementById('chessboard');
     chessboard.innerHTML = ''; // Clear existing squares if any
 
@@ -78,6 +90,7 @@ function initializeBoard() {
 
             // Place piece if exists in the initial layout
             const piece = initialBoard[row][col];
+            // console.log(piece);
             if (piece) {
                 const pieceImg = document.createElement('img');
                 pieceImg.src = pieceImages[piece];
