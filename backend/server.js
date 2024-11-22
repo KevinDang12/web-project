@@ -33,9 +33,10 @@ app.get('/api/users/:email', (req, res) => {
  */
 app.get('/api/verify_user/:email/:password', (req, res) => {
     const users = read("users.json");
-    if (users === null) { // 404 object not found
+    if (users === null || users == undefined) { // 404 object not found
         res.send(null);
     }
+    console.log(users);
     const user = users.find((u) => u.email === req.params.email);
     console.log(user);
     console.log(req.params.password);
