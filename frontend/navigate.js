@@ -1,7 +1,6 @@
-document.getElementById('newgame').addEventListener('click', function(e) {
-    e.preventDefault();
-    console.log('New Game');
-    window.location.href = './newgame.html';
+// Redirect to chessgame.html when New Game is clicked
+document.getElementById("newgame").addEventListener("click", function() {
+    window.location.href = "chessgame.html";
 });
 
 document.getElementById('loadgame').addEventListener('click', function(e) {

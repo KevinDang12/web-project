@@ -1,12 +1,16 @@
-// Display saved games from localStorage
+// Redirect to Main Menu when Back button is clicked
+document.getElementById("backToMenu").addEventListener("click", function() {
+    window.location.href = "mainmenu.html"; // Redirect to the Main Menu
+});
+
+// Display saved games from localStorage or server
 async function displaySavedGames() {
     const savedGames = JSON.parse(localStorage.getItem('savedGames')) || [];
     const loadGameTable = document.getElementById('loadGameTable').getElementsByTagName('tbody')[0];
     loadGameTable.innerHTML = ''; // Clear existing rows
     
-    // Get user email from localStorage
+    // Fetch user email and game data from server
     const email = JSON.parse(localStorage.getItem('user')).email;
-
     const response = await fetch('http://localhost:5000/api/boards/' + email, {
         method: 'GET',
         headers: {
@@ -14,46 +18,26 @@ async function displaySavedGames() {
         }
     });
     const data = await response.json();
-    console.log(data);
 
-    data.forEach((data) => {
+    data.forEach((game) => {
         const newRow = loadGameTable.insertRow();
-        
-        newRow.insertCell(0).textContent = data.player1;
-        newRow.insertCell(1).textContent = data.player2;
-        newRow.insertCell(2).textContent = data.gameTime;
-        newRow.insertCell(3).textContent = data.gameDate;
+        newRow.insertCell(0).textContent = game.player1;
+        newRow.insertCell(1).textContent = game.player2;
+        newRow.insertCell(2).textContent = game.gameTime;
+        newRow.insertCell(3).textContent = game.gameDate;
 
         const loadCell = newRow.insertCell(4);
         const loadButton = document.createElement('button');
         loadButton.textContent = 'Load';
         loadButton.className = 'load-button';
-        loadButton.onclick = () => loadGame(data.gameId);
+        loadButton.onclick = () => loadGame(game.gameId);
         loadCell.appendChild(loadButton);
     });
-
-    // Populate each saved game with a "Load" button
-    // savedGames.forEach((gameData) => {
-    //     const newRow = loadGameTable.insertRow();
-        
-    //     newRow.insertCell(0).textContent = gameData.player1;
-    //     newRow.insertCell(1).textContent = gameData.player2;
-    //     newRow.insertCell(2).textContent = gameData.gameTime;
-    //     newRow.insertCell(3).textContent = gameData.gameDate;
-
-    //     const loadCell = newRow.insertCell(4);
-    //     const loadButton = document.createElement('button');
-    //     loadButton.textContent = 'Load';
-    //     loadButton.className = 'load-button';
-    //     loadButton.onclick = () => loadGame(gameData);
-    //     loadCell.appendChild(loadButton);
-    // });
 }
 
 // Function to load a specific game
-async function loadGame(gameData) {
+async function loadGame(gameId) {
     const email = JSON.parse(localStorage.getItem('user')).email;
-
     const response = await fetch('http://localhost:5000/api/boards/' + email, {
         method: 'GET',
         headers: {
@@ -61,19 +45,12 @@ async function loadGame(gameData) {
         }
     });
     const data = await response.json();
-    console.log(data);
-
-    // get game data from server
-    let game = data.find((g) => g.gameId === gameData);
-    console.log(game);
+    const game = data.find((g) => g.gameId === gameId);
 
     localStorage.setItem('currentGame', JSON.stringify(game)); // Store selected game
+    localStorage.setItem('board', JSON.stringify(game.boardState)); // Save board state
     alert(`Loading game for ${game.player1} vs ${game.player2} on ${game.gameDate} at ${game.gameTime}`);
-
-    // add to local storage
-    localStorage.setItem('board', JSON.stringify(game.boardState));
-
-    window.location.href = 'chessgame.html'; // Redirect to main game
+    window.location.href = 'chessgame.html'; // Redirect to the main game
 }
 
 // Automatically display saved games on page load
