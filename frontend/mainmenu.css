@@ -1,4 +1,15 @@
-.mainmenu {
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#mainmenu {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -7,7 +18,7 @@
     height: 80vh;
 }
 
-button {
+#newgame, #loadgame, #scoreboard {
     padding: 10px;
     width: 300px;
     height: 100px;

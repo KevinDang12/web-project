@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess Game</title>
+  <link rel="stylesheet" href="chessgame.css">
+  <link rel="stylesheet" type="text/css" href="header.css" title="style" />
+</head>
+<body>
+  <div class="header">
+    <ul class="header-left">
+        <li class="logo">
+            <button id="logout">Logout</button>
+        </li>
+    </ul>
+  </div>
+  <div class="game-container">
+    <div class="profile">
+      <img src="images/user-profile.png" alt="User Profile" class="profile-pic">
+      <h2>Chess Game</h2>
+    </div>
+    
+    <div class="chessboard-container">
+      <div class="chessboard" id="chessboard">
+        <!-- Chessboard squares will be dynamically populated here -->
+      </div>
+    </div>
+    
+    <div class="button-container">
+      <button onclick="saveGame()">Save Game</button>
+      <button onclick="loadGame()">Load Game</button>
+    </div>
+  </div>
+
+  <script src="chessgame.js"></script>
+  <script src="logout.js"></script>
+</body>
+</html>

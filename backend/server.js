@@ -1,8 +1,10 @@
 const express  = require('express');
 const app = express();
+const cors = require('cors');
 const fs = require('fs');
 
 app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.status(200).send('The server is running');
@@ -14,12 +16,33 @@ app.get('/', (req, res) => {
 app.get('/api/users/:email', (req, res) => {
     const users = read("users.json");
     if (users === null) { // 404 object not found
-        res.status(404).send('The file does not exist.');
+        res.send(null);
     }
     const user = users.find((u) => u.email === req.params.email);
+    console.log(user);
 
     if (!user) { // 404 object not found
-        res.status(404).send('The user with the given email was not found.');
+        res.send(null);
+    } else {
+        res.send(user.email);
+    }
+});
+
+/**
+ * GET Request Get the user by the email
+ */
+app.get('/api/verify_user/:email/:password', (req, res) => {
+    const users = read("users.json");
+    if (users === null || users == undefined) { // 404 object not found
+        res.send(null);
+    }
+    console.log(users);
+    const user = users.find((u) => u.email === req.params.email);
+    console.log(user);
+    console.log(req.params.password);
+
+    if (!user || req.params.password != user.password) { // 404 object not found
+        res.send(null);
     } else {
         res.send(user.email);
     }
@@ -38,7 +61,94 @@ app.post('/api/users', (req, res) => {
 
     users.push(user);
     write(users, "users.json");
-    res.send(user);
+    res.send({user});
+});
+
+/**
+ * GET Request Get the saved games by userId
+ */
+app.get('/api/boards/:email', (req, res) => {
+    const boards = read("boards.json");
+    if (boards === null) { // 404 object not found
+        res.send(null);
+    }
+
+    const user = boards.find((u) => u.userId === req.params.email);
+
+    res.send(user.games);
+});
+
+/**
+ * POST Request Save a game to the save file
+ */
+app.post('/api/boards', (req, res) => {
+    let boards = [];
+    let board = req.body;
+
+    let userId = board.userId;
+    let gameId = board.gameId;
+    let userExists = true;
+
+    if (fs.existsSync("boards.json")) {
+        boards = read("boards.json");
+    }
+
+    // Check if the user id exists
+    let user = boards.find((b) => b.userId === userId);
+    if (!user) {
+        userExists = false;
+        user = {
+            userId: userId,
+            games: []
+        }
+    }
+
+    // Check if the game id exists
+    let game = user.games.find((g) => g.gameId === gameId);
+
+    if (!game) {
+        let data = {
+            gameId: gameId,
+            player1: board.player1,
+            player2: board.player2,
+            gameTime: board.gameTime,
+            gameDate: board.gameDate,
+            boardState: board.boardState
+        }
+        user.games.push(data);
+    } else {
+        game.boardState = board.boardState;
+        game.gameTime = board.gameTime;
+        game.gameDate = board.gameDate;
+    }
+
+    if (!userExists) {
+        boards.push(user);
+    }
+    write(boards, "boards.json");
+    res.send({board});
+});
+
+/**
+ * POST Request Save a completed chess game to the save file
+ */
+app.post('/api/chessgames', (req, res) => {
+    let games = [];
+    let game = req.body;
+
+    if (fs.existsSync("scoreboard.json")) {
+        scoreboard = read("scoreboard.json");
+    }
+
+    games.push(game);
+});
+
+/**
+ * GET Request Get a list of scores from the save file
+ */
+app.get('/api/chessgames', (req, res) => {
+    const games = read("scoreboard.json");
+    res.send(games);
 });
 
 /**

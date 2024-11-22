@@ -1,35 +1,35 @@
 <!DOCTYPE html>
-
-<html lang="En">
-
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Load Game</title>
-  <link rel="stylesheet" type="text/css" href="loadgame.css" title="style" /> 
+  <link rel="stylesheet" href="loadgame.css">
 </head>
-
 <body>
-    <div class="loadgame">
-        <table>
-            <tr>
-                <th colspan="3">Load Game</th>
-            </tr>
-            <tr>
-                <th>Game ID</th>
-                <th>Game Time</th>
-                <th>Date</th>
-            </tr>
-            <tr class="game">
-                <td>Game 1</td>
-                <td>11:30</td>
-                <td>1999/09/12</td>
-            </tr>
-            <tr class="game">
-                <td>Game 2</td>
-                <td>1:30</td>
-                <td>2000/11/22</td>
-            </tr>
-        </table>
-    </div>
+  <div class="loadgame-container">
+    <h2>Load Game</h2>
+
+    <!-- Back button to return to Save Game page -->
+    <button onclick="goBackToSaveGame()">Back to Save Game</button>
+
+    <!-- Table of saved games -->
+    <table id="loadGameTable">
+      <thead>
+        <tr>
+          <th>Player 1</th>
+          <th>Player 2</th>
+          <th>Game Time</th>
+          <th>Game Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Saved games will be dynamically loaded here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script src="loadgame.js"></script>
 </body>
 </html>
