@@ -7,9 +7,8 @@ async function getScore() {
     })
 
     const data = await response.json();
-    console.log(data);
 
-    const scoreTable = document.getElementById('scoreboard').getElementsByTagName('tbody')[0];
+    const scoreTable = document.getElementById('scoreboardTable').getElementsByTagName('tbody')[0];
     scoreTable.innerHTML = '';
 
     data.forEach((data) => {
@@ -20,3 +19,8 @@ async function getScore() {
         newRow.insertCell(2).textContent = data.gameId;
     });
 }
+
+// Redirect to Main Menu when Back button is clicked
+document.getElementById("backToMenu").addEventListener("click", function() {
+    window.location.href = "mainmenu.html"; // Redirect to the Main Menu
+});

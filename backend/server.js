@@ -148,30 +148,32 @@ app.post('/api/boards', (req, res) => {
  * POST Request Save a completed chess game to the save file
  */
 app.post('/api/scores', (req, res) => {
-    let games = [];
-    let game = req.body;
+    let scoreboard = [];
+    let score = req.body;
 
     if (fs.existsSync("scoreboard.json")) {
         scoreboard = read("scoreboard.json");
     }
 
-    games.push(game);
+    scoreboard.push(score);
+    write(scoreboard, "scoreboard.json");
+    res.send({score});
 });
 
 /**
  * GET Request Get a list of scores from the save file
  */
 app.get('/api/scores', (req, res) => {
-    let games = [];
+    let scoreboard = [];
 
     if (fs.existsSync("scoreboard.json")) {
         scoreboard = read("scoreboard.json");
     }
     
-    if (games === null || games === undefined || games.length <= 0) { // 404 object not found
+    if (scoreboard === null || scoreboard === undefined || scoreboard.length <= 0) { // 404 object not found
         res.send(null);
     } else {
-        res.send(games);
+        res.send(scoreboard);
     }
 });
 
@@ -199,91 +201,6 @@ const write = (notes, file) => {
         if (err) throw err;
     });
 };
-
-/**
- * GET Request to get the game by id
- */
-app.get('/api/games/:id', (req, res) => {
-    const notes = read(GAME_FILE);
-    // const user = notes.find((b) => b.id === req.params.id);
-
-    // if (user === null || typeof user === 'undefined') { // 404 object not found
-    //     res.status(404).send('The user with the given ID was not found.');
-    // } else {
-    //     user.title = decryptData(user.title, user.id);
-    //     user.note = decryptData(user.note, user.id);
-    //     res.send(user);
-    // }
-});
-
-/**
- * GET Request Get the list of games
- */
-app.get('/api/games', (req, res) => {
-    const boards = read(MINESWEEPER_FILE);
-    res.send(boards);
-});
-
-/**
- * POST Request Save a game to the save file
- */
-app.post('/api/games', (req, res) => {
-    let notes = [];
-    let user = req.body;
-
-    // if (fs.existsSync(NOTE_FILE)) {
-    //     notes = read(NOTE_FILE);
-    // }
-
-    // user.title = encryptData(user.title, user.id);
-    // user.note = encryptData(user.note, user.id);
-    // notes.push(user);
-    // write(notes, NOTE_FILE);
-    // res.send(notes);
-});
-
-/**
- * PUT Request update the game by id
- */
-app.put('/api/notes/:id', (req, res) => {
-    const notes = read(NOTE_FILE);
-    // const user = notes.find((b) => b.id === req.params.id);
-
-    // if (!user) { // 404 object not found
-    //     res.status(404).send('The board with the given ID was not found.');
-    // } else {
-    //     user.title = encryptData(req.body.title, user.id);
-    //     user.note = encryptData(req.body.note, user.id);
-    //     write(notes, NOTE_FILE);
-    //     res.send(user);
-    // }
-});
-
-/**
- * GET Request Get the list of scores from users
- */
-app.get('/api/scores', (req, res) => {
-    // const boards = read(MINESWEEPER_FILE);
-    // res.send(boards);
-});
-
-/**
- * POST Request Save a score to the save file
- */
-app.post('/api/scores', (req, res) => {
-    let notes = [];
-    let user = req.body;
-
-    // if (fs.existsSync(NOTE_FILE)) {
-    //     notes = read(NOTE_FILE);
-    // }
-
-    // user.title = encryptData(user.title, user.id);
-    // user.note = encryptData(user.note, user.id);
-    // notes.push(user);
-    // write(notes, NOTE_FILE);
-    // res.send(notes);
-});
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

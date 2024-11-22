@@ -35,7 +35,7 @@ document.getElementById('signInForm').addEventListener('submit', async function(
         alert('Invalid Email or Password');
     } else {
         const user = { email: data, signedIn: true };
-        localStorage.setItem('userId', JSON.stringify(user));
+        localStorage.setItem('user', JSON.stringify(user));
         window.location.href = './mainmenu.html';
     }
 });
@@ -70,7 +70,7 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
         .then(data => {
             alert('User created successfully');
             const user = { email: data, signedIn: true };
-            localStorage.setItem('userId', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(user));
             window.location.href = './mainmenu.html';
         })
     } else {

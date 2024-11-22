@@ -118,11 +118,13 @@ async function saveScore(player1, player2, winner) {
     const now = new Date();
 
     const gameData = {
-        gameId: now,
+        gameId: now.toLocaleDateString(),
         player1,
         player2,
         winner
     };
+
+    console.log(gameData);
 
     await fetch('http://localhost:5000/api/scores', {
         method: 'POST',
@@ -277,39 +279,126 @@ function movePiece(piece, startRow, startCol, endRow, endCol) {
 
 // Validate pawn moves (white pawns only as example)
 // Validate pawn moves for both white ('P') and black ('p') pawns
-function isValidPawnMove(startRow, startCol, endRow, endCol, piece) {
-    const direction = piece === 'P' ? -1 : 1; // White moves up (-1), black moves down (+1)
-    const startingRow = piece === 'P' ? 6 : 1; // White starts on row 6, black on row 1
+// Validate pawn moves for both white ('P') and black ('p') pawns
+// Validate pawn moves for both white ('P') and black ('p') pawns
+function isValidPawnMove(startRow, startCol, endRow, endCol, pieceType) {
+    const direction = pieceType === 'P' ? -1 : 1; // White pawns move up (-1), black pawns move down (+1)
+    const startingRow = pieceType === 'P' ? 6 : 1; // White pawns start at row 6, black pawns at row 1
 
-    // Moving forward by one square
-    if (startCol === endCol && startRow + direction === endRow && !initialBoard[endRow][endCol]) {
+    const rowDiff = endRow - startRow;
+    const colDiff = endCol - startCol;
+
+    const destinationPiece = initialBoard[endRow][endCol]; // Get the piece at the destination square
+    const isCapture = destinationPiece && isOpponentPiece(pieceType, destinationPiece); // Check if the move captures an opponent piece
+
+    // Forward move by one square (not capturing)
+    if (
+        colDiff === 0 && // Same column
+        rowDiff === direction && // One step forward
+        !destinationPiece // Square must be empty for a regular move
+    ) {
         return true;
     }
 
-    // Moving forward by two squares from the starting row
+    // Forward move by two squares from starting position (not capturing)
     if (
-        startCol === endCol &&
-        startRow === startingRow &&
-        startRow + 2 * direction === endRow &&
-        !initialBoard[endRow][endCol] &&
-        !initialBoard[startRow + direction][startCol]
+        colDiff === 0 && // Same column
+        rowDiff === 2 * direction && // Two steps forward
+        startRow === startingRow && // From starting position
+        !destinationPiece && // Square must be empty
+        !initialBoard[startRow + direction][startCol] // Ensure square in-between is also empty
     ) {
         return true;
     }
 
     // Diagonal capture
     if (
-        Math.abs(startCol - endCol) === 1 &&
-        startRow + direction === endRow &&
-        initialBoard[endRow][endCol] &&
-        initialBoard[endRow][endCol].toLowerCase() !== piece.toLowerCase() // Ensure capturing opposite color
+        Math.abs(colDiff) === 1 && // One column difference
+        rowDiff === direction && // One step forward diagonally
+        isCapture // Must be capturing an opponent's piece
     ) {
         return true;
     }
 
+    // Allow pawn to move diagonally to overlap any piece (like other pieces)
+    if (
+        Math.abs(colDiff) === 1 && // One column difference
+        rowDiff === direction && // One step forward diagonally
+        destinationPiece // Must have any piece at the destination (not empty)
+    ) {
+        return true;
+    }
+
+    // Invalid move
     return false;
 }
 
+
+
+
+
+
+function isOpponentPiece(pieceType, destinationPieceType) {
+    const isWhitePiece = pieceType === pieceType.toUpperCase();
+    const isDestinationWhite = destinationPieceType === destinationPieceType.toUpperCase();
+    return isWhitePiece !== isDestinationWhite;
+}
+
+
+// Move piece to new position
+async function movePiece(piece, startRow, startCol, endRow, endCol) {
+    // Update board array
+    const capturedPiece = initialBoard[endRow][endCol]; // Check if there's a piece in the target square
+    initialBoard[endRow][endCol] = piece.dataset.piece;
+    initialBoard[startRow][startCol] = '';
+
+    // Remove the captured piece from the DOM, if any
+    if (capturedPiece) {
+        const capturedPieceElement = document.querySelector(
+            `.piece[data-row="${endRow}"][data-col="${endCol}"]`
+        );
+        if (capturedPieceElement) {
+            capturedPieceElement.remove(); // Remove the captured piece from the DOM
+            console.log(`Captured piece: ${capturedPiece}`); // Debug log
+        }
+    }
+
+    // Update piece position in DOM
+    const endSquare = document.querySelector(`.square[data-row="${endRow}"][data-col="${endCol}"]`);
+    if (endSquare) {
+        endSquare.appendChild(piece); // Move piece to new square
+        piece.dataset.row = endRow;
+        piece.dataset.col = endCol;
+        console.log("Piece moved to:", endRow, endCol); // Debug log
+    } else {
+        console.error("Target square not found.");
+    }
+
+    // Check if the king is captured
+    if (capturedPiece === 'K' || capturedPiece === 'k') {
+        let players = JSON.parse(localStorage.getItem('players'));
+
+        let player1 = players.player1;
+        let player2 = players.player2;
+
+        const winner = capturedPiece === 'k' ? player2 : player1;
+
+        await saveScore(player1, player2, winner);
+        alert("Game over! The king has been captured.");
+        resetGame(); // Call a function to reset the game or end it
+    }
+}
+
+// Function to reset the game (you can customize this)
+function resetGame() {
+    // Clear the board and reset to the initial state
+    localStorage.removeItem('board'); // Optionally clear saved state
+    location.reload(); // Reload the page to restart the game
+}
+
+function mainMenu() {
+    window.location.href = "mainmenu.html"; // Redirect to the Main Menu
+}
 
 // Run initialization on page load
 window.onload = initializeBoard;

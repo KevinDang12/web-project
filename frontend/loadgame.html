@@ -10,24 +10,26 @@
   <div class="loadgame-container">
     <h2>Load Game</h2>
 
-    <!-- Back button to return to Save Game page -->
-    <button onclick="goBackToSaveGame()">Back to Save Game</button>
+    <!-- Back button to return to Main Menu -->
+    <button id="backToMenu" class="back-button">Back to Main Menu</button>
 
-    <!-- Table of saved games -->
-    <table id="loadGameTable">
-      <thead>
-        <tr>
-          <th>Player 1</th>
-          <th>Player 2</th>
-          <th>Game Time</th>
-          <th>Game Date</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Saved games will be dynamically loaded here -->
-      </tbody>
-    </table>
+    <div class="loadTable">
+      <!-- Table of saved games -->
+      <table id="loadGameTable">
+        <thead>
+          <tr>
+            <th>Player 1</th>
+            <th>Player 2</th>
+            <th>Game Time</th>
+            <th>Game Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Saved games will be dynamically loaded here -->
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <script src="loadgame.js"></script>

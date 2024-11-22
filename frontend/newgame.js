@@ -1,10 +1,18 @@
 document.getElementById('start-game').addEventListener('click', function(e) {
     e.preventDefault();
-    localStorage.removeItem('board');
+    const player1 = document.getElementById('player1').value;
+    const player2 = document.getElementById('player2').value;
+
     let players = {
-        player1 : document.getElementById('player1').value,
-        player2 : document.getElementById('player2').value
+        player1 : player1,
+        player2 : player2
     };
+
+    if (!player1 || !player2) {
+        alert("Please enter both player names.");
+        return;
+    }
+
     localStorage.setItem('players', JSON.stringify(players));
     window.location.href = './chessgame.html';
 });

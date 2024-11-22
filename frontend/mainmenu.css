@@ -1,6 +1,6 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #1a1a1a;
+    font-family: 'Trebuchet MS', Arial, sans-serif; /* Clean, modern font */
+    background: linear-gradient(135deg, #1a1a1a, #333333); /* Subtle gradient for depth */
     color: #f2f2f2;
     display: flex;
     justify-content: center;
@@ -9,6 +9,7 @@ body {
     margin: 0;
 }
 
+/* Main Menu Container */
 #mainmenu {
     display: flex;
     flex-direction: column;
@@ -16,18 +17,53 @@ body {
     align-items: center;
     gap: 20px;
     height: 80vh;
+    border: 2px solid #8d99ae; /* Add subtle border for a polished frame */
+    padding: 20px;
+    border-radius: 15px; /* Rounded edges for a softer look */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Depth effect */
+    background: linear-gradient(145deg, #2b2d42, #3a3d5a); /* Chessboard-inspired gradient */
 }
 
+/* Buttons */
 #newgame, #loadgame, #scoreboard {
     padding: 10px;
     width: 300px;
     height: 100px;
-    background-color: #f2f2f2;
+    background: linear-gradient(135deg, #f2f2f2, #d9d9d9); /* Subtle gradient for elegance */
     border: none;
     cursor: pointer;
     font-size: 24px;
+    color: #1a1a1a; /* Dark text for contrast */
+    font-weight: bold;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Button shadow for depth */
+    transition: all 0.3s ease; /* Smooth hover animations */
+    text-transform: uppercase; /* Chess-style formality */
+    letter-spacing: 2px; /* Spaced letters for elegance */
 }
 
+/* Button Hover Effects */
 button:hover {
-    background-color: #e6e6e6;
+    background: linear-gradient(135deg, #e6e6e6, #cccccc); /* Slightly darker gradient */
+    transform: scale(1.05); /* Subtle zoom effect */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+    color: #464daf; /* Pop of color inspired by chess royalty */
+}
+
+/* Button Active Effect */
+button:active {
+    transform: scale(0.95); /* Slightly shrink for tactile feedback */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Reduced shadow on click */
+    background: #d9d9d9; /* Subtle change for feedback */
+}
+
+/* Additional Styling for Immersion */
+#mainmenu h1 {
+    font-size: 48px;
+    font-weight: bold;
+    color: #f2f2f2;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7); /* Elegant glowing effect */
+    margin-bottom: 20px;
+    text-transform: uppercase; /* Formal chess theme */
+    letter-spacing: 3px; /* Aesthetic spacing */
 }

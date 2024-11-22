@@ -1,12 +1,8 @@
 // Save game function
 function saveGame() {
-    const player1 = document.getElementById('player1').value;
-    const player2 = document.getElementById('player2').value;
-
-    if (!player1 || !player2) {
-        alert("Please enter both player names.");
-        return;
-    }
+    const players = JSON.parse(localStorage.getItem('players'));
+    const player1 = players.player1;
+    const player2 = players.player2;
 
     const now = new Date();
     const gameTime = now.toLocaleTimeString();
@@ -14,7 +10,7 @@ function saveGame() {
 
     const gameData = {
         gameId: `Game ${Date.now()}`, // Unique ID
-        userId: JSON.parse(localStorage.getItem('userId')).email,
+        userId: JSON.parse(localStorage.getItem('user')).email,
         player1,
         player2,
         gameTime,
