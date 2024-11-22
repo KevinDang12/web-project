@@ -75,8 +75,6 @@ function initializeBoard() {
         console.log(initialBoard);
     }
 
-    // console.log(initialBoard);
-
     const chessboard = document.getElementById('chessboard');
     chessboard.innerHTML = ''; // Clear existing squares if any
 
@@ -90,7 +88,6 @@ function initializeBoard() {
 
             // Place piece if exists in the initial layout
             const piece = initialBoard[row][col];
-            // console.log(piece);
             if (piece) {
                 const pieceImg = document.createElement('img');
                 pieceImg.src = pieceImages[piece];
@@ -114,6 +111,26 @@ function initializeBoard() {
             chessboard.appendChild(square);
         }
     }
+}
+
+async function saveScore(player1, player2, winner) {
+
+    const now = new Date();
+
+    const gameData = {
+        gameId: now,
+        player1,
+        player2,
+        winner
+    };
+
+    await fetch('http://localhost:5000/api/scores', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(gameData)
+    })
 }
 
 // Variables to store current piece and its position

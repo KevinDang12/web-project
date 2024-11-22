@@ -15,6 +15,22 @@
     list-style-type: none;
 }
 
+#menu {
+    margin-left: auto;
+    justify-self: end;
+    font-family: sans-serif;
+    font-size: 2em;
+    padding: 10px;
+    width: 150px;
+    height: 50px;
+    background-color: #f2f2f2;
+    border: none;
+    border-radius: 15%;
+    cursor: pointer;
+    font-size: 24px;
+    margin-right: 1em;
+}
+
 #logout {
     margin-left: auto;
     justify-self: end;
@@ -25,7 +41,7 @@
     height: 50px;
     background-color: #f2f2f2;
     border: none;
-    border-radius: 35%;
+    border-radius: 15%;
     cursor: pointer;
     font-size: 24px;
     margin-right: 1em;

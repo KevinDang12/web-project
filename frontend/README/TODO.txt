@@ -11,6 +11,7 @@
 
 - Implment win condition and scoreboard saving
 - Implement game functions
+
 - Add scoreboard save and load
 - Add tests
 - Update CSS styling

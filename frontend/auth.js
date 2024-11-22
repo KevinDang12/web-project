@@ -35,7 +35,7 @@ document.getElementById('signInForm').addEventListener('submit', async function(
         alert('Invalid Email or Password');
     } else {
         const user = { email: data, signedIn: true };
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('userId', JSON.stringify(user));
         window.location.href = './mainmenu.html';
     }
 });
@@ -55,7 +55,7 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
     const data = await response.text();
     console.log(data);
 
-    if (!data) {
+    if (!data || data == null) {
         fetch('http://localhost:5000/api/users', {
             method: 'POST',
             headers: {
@@ -70,7 +70,7 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
         .then(data => {
             alert('User created successfully');
             const user = { email: data, signedIn: true };
-            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('userId', JSON.stringify(user));
             window.location.href = './mainmenu.html';
         })
     } else {
@@ -78,7 +78,3 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
         alert('User already exists! Enter a different email address.');
     }
 });
-
-// document.getElementById('signOut').addEventListener('click', function() {
-//     localStorage.removeItem('user');
-// });

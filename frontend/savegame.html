@@ -6,20 +6,29 @@
   <title>Save Chess Game</title>
   <link rel="stylesheet" href="savegame.css">
 </head>
-<body>
+<body onload="showSavePreview()">
   <div class="save-game-container">
     <h2>Save Chess Game</h2>
 
     <!-- Button to navigate to Load Game page -->
-    <button onclick="goToLoadGame()">Load Game</button>
+    <!-- <button onclick="goToLoadGame()">Load Game</button> -->
 
     <!-- Player Input Form -->
     <form id="gameForm">
       <label for="player1">Player 1 Name:</label>
-      <input type="text" id="player1" name="player1" required>
+      <!-- <input type="text" id="player1" name="player1" required> -->
+      <p id="player1">Player 1</p>
       
       <label for="player2">Player 2 Name:</label>
-      <input type="text" id="player2" name="player2" required>
+      <p id="player2">Player 2</p>
+      <!-- <input type="text" id="player2" name="player2" required> -->
+
+      <label for="date">Date:</label>
+      <!-- <input type="text" id="player1" name="player1" required> -->
+      <p id="date">YYYY/MM/DD</p>
+      
+      <label for="time">Time:</label>
+      <p id="time">##:##:##</p>
       
       <input type="button" value="Save Game" onclick="saveGame()">
     </form>

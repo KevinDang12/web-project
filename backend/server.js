@@ -14,17 +14,22 @@ app.get('/', (req, res) => {
  * GET Request Get the user by the email
  */
 app.get('/api/users/:email', (req, res) => {
-    const users = read("users.json");
-    if (users === null) { // 404 object not found
-        res.send(null);
-    }
-    const user = users.find((u) => u.email === req.params.email);
-    console.log(user);
+    let users = [];
 
-    if (!user) { // 404 object not found
+    if (fs.existsSync("users.json")) {
+        users = read("users.json");
+    }
+
+    if (users === null || users === undefined || users.length <= 0) { // 404 object not found
         res.send(null);
     } else {
-        res.send(user.email);
+        const user = users.find((u) => u.email === req.params.email);
+
+        if (!user) { // 404 object not found
+            res.send(null);
+        } else {
+            res.send(user.email);
+        }
     }
 });
 
@@ -32,19 +37,23 @@ app.get('/api/users/:email', (req, res) => {
  * GET Request Get the user by the email
  */
 app.get('/api/verify_user/:email/:password', (req, res) => {
-    const users = read("users.json");
-    if (users === null || users == undefined) { // 404 object not found
-        res.send(null);
-    }
-    console.log(users);
-    const user = users.find((u) => u.email === req.params.email);
-    console.log(user);
-    console.log(req.params.password);
 
-    if (!user || req.params.password != user.password) { // 404 object not found
+    let users = [];
+
+    if (fs.existsSync("users.json")) {
+        users = read("users.json");
+    }
+
+    if (users === null || users === undefined || users.length <= 0) { // 404 object not found
         res.send(null);
     } else {
-        res.send(user.email);
+        const user = users.find((u) => u.email === req.params.email);
+
+        if (!user || req.params.password != user.password) { // 404 object not found
+            res.send(null);
+        } else {
+            res.send(user.email);
+        }
     }
 });
 
@@ -68,14 +77,20 @@ app.post('/api/users', (req, res) => {
  * GET Request Get the saved games by userId
  */
 app.get('/api/boards/:email', (req, res) => {
-    const boards = read("boards.json");
-    if (boards === null) { // 404 object not found
-        res.send(null);
+
+    let boards = [];
+
+    if (fs.existsSync("boards.json")) {
+        boards = read("boards.json");
     }
 
-    const user = boards.find((u) => u.userId === req.params.email);
+    if (boards === null || boards === undefined || boards.length <= 0) { // 404 object not found
+        res.send(null);
+    } else {
+        const user = boards.find((u) => u.userId === req.params.email);
 
-    res.send(user.games);
+        res.send(user.games);
+    }
 });
 
 /**
@@ -132,7 +147,7 @@ app.post('/api/boards', (req, res) => {
 /**
  * POST Request Save a completed chess game to the save file
  */
-app.post('/api/chessgames', (req, res) => {
+app.post('/api/scores', (req, res) => {
     let games = [];
     let game = req.body;
 
@@ -146,36 +161,19 @@ app.post('/api/chessgames', (req, res) => {
 /**
  * GET Request Get a list of scores from the save file
  */
-app.get('/api/chessgames', (req, res) => {
-    const games = read("scoreboard.json");
-    res.send(games);
+app.get('/api/scores', (req, res) => {
+    let games = [];
+
+    if (fs.existsSync("scoreboard.json")) {
+        scoreboard = read("scoreboard.json");
+    }
+    
+    if (games === null || games === undefined || games.length <= 0) { // 404 object not found
+        res.send(null);
+    } else {
+        res.send(games);
+    }
 });
-
-/**
- * GET Request to check if the user is authenticated
- */
-// app.get('/api/user/profile', (req, res) => {
-//     if (req.isAuthenticated()) {
-//         // The user is authenticated, send the profile stored in the session
-//         res.json(req.user);
-//     } else {
-//         // If the user is not authenticated, send an empty object or an error message
-//         res.json(null);
-//     }
-// });
-
-/**
- * GET Request when the user clicks the logout button
- */
-// app.get('/logout', async (req, res) => {
-//     req.logout((err) => {
-//         if (err) {
-//             console.error('Logout failed:', err);
-//             return res.status(500).json({ message: 'Logout failed' });
-//         }
-//     });
-//     res.redirect(`/signin`);
-// });
 
 /**
  * Read the save file to get the list

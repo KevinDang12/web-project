@@ -14,7 +14,7 @@ function saveGame() {
 
     const gameData = {
         gameId: `Game ${Date.now()}`, // Unique ID
-        userId: JSON.parse(localStorage.getItem('user')).email,
+        userId: JSON.parse(localStorage.getItem('userId')).email,
         player1,
         player2,
         gameTime,
@@ -35,13 +35,22 @@ function saveGame() {
         alert('Game saved successfully!')
     )
 
-    // Save the game to localStorage
-    // let savedGames = JSON.parse(localStorage.getItem('savedGames')) || [];
-    // savedGames.push(gameData);
-    // localStorage.setItem('savedGames', JSON.stringify(savedGames));
-
     document.getElementById('gameForm').reset();
 
     // Optionally, redirect back to the chess game or confirmation page
     window.location.href = 'chessgame.html';
+}
+
+function showSavePreview() {
+    let player1 = document.getElementById('player1');
+    let player2 = document.getElementById('player2');
+    let date = document.getElementById('date');
+    let time = document.getElementById('time');
+
+    let players = JSON.parse(localStorage.getItem('players'));
+
+    player1.innerHTML = players.player1;
+    player2.innerHTML = players.player2;
+    date.innerHTML = new Date().toLocaleDateString();
+    time.innerHTML = new Date().toLocaleTimeString();
 }
