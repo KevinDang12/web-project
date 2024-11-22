@@ -17,7 +17,7 @@ body {
     align-items: center;
     max-width: 600px;
     padding: 20px;
-    background: linear-gradient(145deg, #432c85, #7b40a1); /* Gradient for a striking effect */
+    background: linear-gradient(145deg, #5c42a3, #502c68); /* Gradient for a striking effect */
     border-radius: 15px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
 }
