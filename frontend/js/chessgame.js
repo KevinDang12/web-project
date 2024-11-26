@@ -42,18 +42,18 @@ const initialBoard = [
 
 // Load images for each piece type
 const pieceImages = {
-    'P': 'images/white_pawn.png',
-    'R': 'images/white_rook.png',
-    'N': 'images/white_knight.png',
-    'B': 'images/white_bishop.png',
-    'Q': 'images/white_queen.png',
-    'K': 'images/white_king.png',
-    'p': 'images/black_pawn.png',
-    'r': 'images/black_rook.png',
-    'n': 'images/black_knight.png',
-    'b': 'images/black_bishop.png',
-    'q': 'images/black_queen.png',
-    'k': 'images/black_king.png',
+    'P': '../images/white_pawn.png',
+    'R': '../images/white_rook.png',
+    'N': '../images/white_knight.png',
+    'B': '../images/white_bishop.png',
+    'Q': '../images/white_queen.png',
+    'K': '../images/white_king.png',
+    'p': '../images/black_pawn.png',
+    'r': '../images/black_rook.png',
+    'n': '../images/black_knight.png',
+    'b': '../images/black_bishop.png',
+    'q': '../images/black_queen.png',
+    'k': '../images/black_king.png',
 };
 
 // Initialize the chessboard with pieces

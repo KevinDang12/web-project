@@ -67,9 +67,9 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
             })
         })
         .then(response => response.json())
-        .then(data => {
+        .then(() => {
             alert('User created successfully');
-            const user = { email: data, signedIn: true };
+            const user = { email: email, signedIn: true };
             localStorage.setItem('user', JSON.stringify(user));
             window.location.href = './mainmenu.html';
         })

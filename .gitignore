@@ -1,1 +1,4 @@
 /backend/node_modules
+/backend/boards.json
+/backend/users.json
+/backend/scoreboard.json
