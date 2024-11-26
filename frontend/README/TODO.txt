@@ -13,6 +13,6 @@
 - Implement game functions
 
 - Add scoreboard save and load
-- Add tests
+- Add tests *
 - Update CSS styling
 - functionality when user is not logged in

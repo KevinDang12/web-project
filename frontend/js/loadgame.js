@@ -50,7 +50,6 @@ async function loadGame(gameId) {
 
     localStorage.setItem('board', JSON.stringify(game.boardState)); // Save board state
     localStorage.setItem('players', JSON.stringify({ player1: game.player1, player2: game.player2 })); // Save player names
-    alert(`Loading game for ${game.player1} vs ${game.player2} on ${game.gameDate} at ${game.gameTime}`);
     window.location.href = 'chessgame.html'; // Redirect to the main game
 }
 

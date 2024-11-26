@@ -6,106 +6,131 @@ const fs = require('fs');
 app.use(express.json());
 app.use(cors());
 
+const USERS_FILE = "users.json";
+const BOARDS_FILE = "boards.json";
+const SCOREBOARD_FILE = "scoreboard.json";
+
+/**
+ * GET Request to check if the server is running
+ */
 app.get('/', (req, res) => {
     res.status(200).send('The server is running');
 });
 
 /**
- * GET Request Get the user by the email
+ * Get the user ID using the email
+ * @param {*} filename name of the file to read
+ * @param {*} userId the email of the user
+ * @returns the email of the user otherwise null if it does not exist
  */
-app.get('/api/users/:email', (req, res) => {
+function getUserEmail(filename, userId) {
     let users = [];
 
-    if (fs.existsSync("users.json")) {
-        users = read("users.json");
+    if (fs.existsSync(filename)) {
+        users = read(filename);
     }
 
     if (users === null || users === undefined || users.length <= 0) { // 404 object not found
-        res.send(null);
+        return null;
     } else {
-        const user = users.find((u) => u.email === req.params.email);
+        const user = users.find((u) => u.email === userId);
 
         if (!user) { // 404 object not found
-            res.send(null);
+            return null;
         } else {
-            res.send(user.email);
+            return user.email;
         }
     }
-});
+}
 
 /**
- * GET Request Get the user by the email
+ * Verify the user using the email and check if the password matches the user input
+ * @param {*} filename name of the file to read
+ * @param {*} email the email of the user
+ * @param {*} password the password of the user
+ * @returns the email of the user otherwise null if it does not exist
  */
-app.get('/api/verify_user/:email/:password', (req, res) => {
-
+function verifyUser(filename, email, password) {
     let users = [];
 
-    if (fs.existsSync("users.json")) {
-        users = read("users.json");
+    if (fs.existsSync(filename)) {
+        users = read(filename);
     }
 
     if (users === null || users === undefined || users.length <= 0) { // 404 object not found
-        res.send(null);
+        return null;
     } else {
-        const user = users.find((u) => u.email === req.params.email);
+        const user = users.find((u) => u.email === email);
 
-        if (!user || req.params.password != user.password) { // 404 object not found
-            res.send(null);
+        if (!user || password != user.password) { // 404 object not found
+            console.log("User does not exist");
+            return null;
         } else {
-            res.send(user.email);
+            console.log("User exists");
+            return user.email;
         }
     }
-});
+}
 
 /**
- * POST Request Save a user to the save file
+ * Add a user to the save file
+ * @param {*} filename name of the file to write
+ * @param {*} user the user to add to the save file
+ * @returns the user that was added to the save file
  */
-app.post('/api/users', (req, res) => {
+function addUser(filename, user) {
     let users = [];
-    let user = req.body;
 
-    if (fs.existsSync("users.json")) {
-        users = read("users.json");
+    if (fs.existsSync(filename)) {
+        users = read(filename);
     }
 
     users.push(user);
-    write(users, "users.json");
-    res.send({user});
-});
+    write(users, filename);
+    return user;
+}
 
 /**
- * GET Request Get the saved games by userId
+ * Get the list of saved games by the user id
+ * @param {*} filename the name of the file to read
+ * @param {*} userId the email of the user
+ * @returns the list of saved games by the user id otherwise null if it does not exist
  */
-app.get('/api/boards/:email', (req, res) => {
-
+function getBoards(filename, userId) {
     let boards = [];
 
-    if (fs.existsSync("boards.json")) {
-        boards = read("boards.json");
+    if (fs.existsSync(filename)) {
+        boards = read(filename);
     }
 
     if (boards === null || boards === undefined || boards.length <= 0) { // 404 object not found
-        res.send(null);
-    } else {
-        const user = boards.find((u) => u.userId === req.params.email);
+        return null;
 
-        res.send(user.games);
+    } else {
+        if (boards.find((u) => u.userId === userId)) {
+            const user = boards.find((u) => u.userId === userId);
+            return user.games;
+        } else {
+            return null;
+        }
     }
-});
+}
 
 /**
- * POST Request Save a game to the save file
+ * Add a board to the save file
+ * @param {*} filename the name of the file to write
+ * @param {*} board the board to add to the save file
+ * @returns the board that was added to the save file
  */
-app.post('/api/boards', (req, res) => {
+function addBoard(filename, board) {
     let boards = [];
-    let board = req.body;
 
     let userId = board.userId;
     let gameId = board.gameId;
     let userExists = true;
 
-    if (fs.existsSync("boards.json")) {
-        boards = read("boards.json");
+    if (fs.existsSync(filename)) {
+        boards = read(filename);
     }
 
     // Check if the user id exists
@@ -141,40 +166,96 @@ app.post('/api/boards', (req, res) => {
         boards.push(user);
     }
     write(boards, "boards.json");
-    res.send({board});
+    return board;
+}
+
+/**
+ * Add a score to the save file
+ * @param {*} filename the name of the file to write
+ * @param {*} score the score to add to the save file
+ * @returns the score that was added to the save file
+ */
+function addScore(filename, score) {
+    let scoreboard = [];
+
+    if (fs.existsSync(filename)) {
+        scoreboard = read(filename);
+    }
+
+    scoreboard.push(score);
+    write(scoreboard, filename);
+    return score;
+}
+
+/**
+ * Get the list of scores from the save file
+ * @param {*} filename the name of the file to read
+ * @returns the list of scores otherwise null if it does not exist
+ */
+function getScores(filename) {
+    let scoreboard = [];
+
+    if (fs.existsSync(filename)) {
+        scoreboard = read(filename);
+    }
+    
+    if (scoreboard === null || scoreboard === undefined || scoreboard.length <= 0) { // 404 object not found
+        return null;
+    } else {
+        return scoreboard;
+    }
+}
+
+/**
+ * GET Request Get the user by the email
+ */
+app.get('/api/users/:email', (req, res) => {
+    res.send(getUserEmail(USERS_FILE, req.params.email));
+});
+
+/**
+ * GET Request Get the user by the email
+ */
+app.get('/api/verify_user/:email/:password', (req, res) => {
+    res.send(verifyUser(USERS_FILE, req.params.email, req.params.password));
+});
+
+/**
+ * POST Request Save a user to the save file
+ */
+app.post('/api/users', (req, res) => {
+    const result = addUser(USERS_FILE, req.body);
+    res.send({result});
+});
+
+/**
+ * GET Request Get the saved games by userId
+ */
+app.get('/api/boards/:email', (req, res) => {
+    res.send(getBoards(BOARDS_FILE, req.params.email));
+});
+
+/**
+ * POST Request Save a game to the save file
+ */
+app.post('/api/boards', (req, res) => {
+    const result = addBoard(BOARDS_FILE, req.body);
+    res.send({result});
 });
 
 /**
  * POST Request Save a completed chess game to the save file
  */
 app.post('/api/scores', (req, res) => {
-    let scoreboard = [];
-    let score = req.body;
-
-    if (fs.existsSync("scoreboard.json")) {
-        scoreboard = read("scoreboard.json");
-    }
-
-    scoreboard.push(score);
-    write(scoreboard, "scoreboard.json");
-    res.send({score});
+    const result = addScore(SCOREBOARD_FILE, req.body);
+    res.send({result});
 });
 
 /**
  * GET Request Get a list of scores from the save file
  */
 app.get('/api/scores', (req, res) => {
-    let scoreboard = [];
-
-    if (fs.existsSync("scoreboard.json")) {
-        scoreboard = read("scoreboard.json");
-    }
-    
-    if (scoreboard === null || scoreboard === undefined || scoreboard.length <= 0) { // 404 object not found
-        res.send(null);
-    } else {
-        res.send(scoreboard);
-    }
+    res.send(getScores(SCOREBOARD_FILE));
 });
 
 /**
@@ -182,21 +263,21 @@ app.get('/api/scores', (req, res) => {
  * of users and saved notes
  * @return {*} The list of users and their notes
  */
-const read = (file) => {
+function read(file) {
     try {
       const data = fs.readFileSync(file, 'utf8');
       return JSON.parse(data);
     } catch (err) {
       console.error(err);
     }
-  };
+};
   
 /**
  * Overwrite the existing save file, or create a
  * new save file if it does not exists with the save data
  * @param {*} notes The user and their notes to save to the save file.
  */
-const write = (notes, file) => {
+function write(notes, file) {
     fs.writeFile(file, JSON.stringify(notes), function(err) {
         if (err) throw err;
     });
@@ -206,3 +287,5 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Listening on port ${port}\nThe Server is running`)
 });
+
+export { getUserEmail, verifyUser, getBoards, getScores };
