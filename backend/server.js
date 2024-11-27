@@ -1,3 +1,5 @@
+'use strict';
+
 const express  = require('express');
 const app = express();
 const cors = require('cors');
@@ -170,6 +172,29 @@ function addBoard(filename, board) {
 }
 
 /**
+ * Delete a saved game from the save file
+ * @param {*} filename the name of the file to update
+ * @param {*} board the board to add to the save file
+ */
+function deleteBoard(filename, userId, gameId) {
+    let boards = [];
+
+    if (fs.existsSync(filename)) {
+        boards = read(filename);
+    }
+
+    // Check if the user id exists
+    let user = boards.find((b) => b.userId === userId);
+
+    if (user) {
+        // Delete the game by index
+        let index = user.games.findIndex((g) => g.gameId === gameId);
+        user.games.splice(index, 1);
+        write(boards, "boards.json");
+    }
+}
+
+/**
  * Add a score to the save file
  * @param {*} filename the name of the file to write
  * @param {*} score the score to add to the save file
@@ -243,6 +268,13 @@ app.post('/api/boards', (req, res) => {
     res.send({result});
 });
 
+app.delete('/api/boards', (req, res) => {
+    deleteBoard(BOARDS_FILE, req.body.email, req.body.gameId);
+    console.log(req.body.email);
+    console.log(req.body.gameId);
+    res.sendStatus(200);
+});
+
 /**
  * POST Request Save a completed chess game to the save file
  */
@@ -288,4 +320,4 @@ app.listen(port, () => {
     console.log(`Listening on port ${port}\nThe Server is running`)
 });
 
-export { getUserEmail, verifyUser, getBoards, getScores };
+// export { getUserEmail, verifyUser, getBoards, getScores };

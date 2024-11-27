@@ -32,6 +32,13 @@ async function displaySavedGames() {
         loadButton.className = 'load-button';
         loadButton.onclick = () => loadGame(game.gameId);
         loadCell.appendChild(loadButton);
+
+        const deleteCell = newRow.insertCell(5);
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.className = 'delete-button';
+        deleteButton.onclick = () => deleteGame(game.gameId);
+        deleteCell.appendChild(deleteButton);
     });
 }
 
@@ -51,6 +58,21 @@ async function loadGame(gameId) {
     localStorage.setItem('board', JSON.stringify(game.boardState)); // Save board state
     localStorage.setItem('players', JSON.stringify({ player1: game.player1, player2: game.player2 })); // Save player names
     window.location.href = 'chessgame.html'; // Redirect to the main game
+}
+
+async function deleteGame(gameId) {
+    const email = JSON.parse(localStorage.getItem('user')).email;
+
+    await fetch('http://localhost:5000/api/boards', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email : email, gameId : gameId})
+    });
+
+    alert(gameId + " is Deleted");
+    location.reload();
 }
 
 // Automatically display saved games on page load
