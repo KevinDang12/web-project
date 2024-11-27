@@ -1,6 +1,7 @@
 // Redirect to chessgame.html when New Game is clicked
 document.getElementById("newgame").addEventListener("click", function() {
     localStorage.removeItem('board');
+    localStorage.removeItem('currentTurn');
     localStorage.removeItem('players');
     window.location.href = "./newgame.html";
 });

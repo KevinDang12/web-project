@@ -20,6 +20,7 @@ function saveGame() {
     }
     console.log(board);
     localStorage.setItem('board', JSON.stringify(board));
+    localStorage.setItem('currentTurn', currentTurn);
     window.location.href = 'savegame.html';
 }
 
@@ -27,6 +28,8 @@ function saveGame() {
 function loadGame() {
     window.location.href = 'loadgame.html';
 }
+
+let currentTurn = localStorage.getItem('currentTurn') || 'white'; // Set the initial turn to white
 
 // Board layout using abbreviations for each piece
 const initialBoard = [
@@ -60,6 +63,7 @@ const pieceImages = {
 function initializeBoard() {
 
     let board = localStorage.getItem('board');
+    toggleTurn();
 
     if (board) {
         board = JSON.parse(board);
@@ -113,6 +117,12 @@ function initializeBoard() {
     }
 }
 
+/**
+ * Save the game score to the node backend server
+ * @param {*} player1 Name of player 1
+ * @param {*} player2 Name of player 2
+ * @param {*} winner The winner of the game
+ */
 async function saveScore(player1, player2, winner) {
 
     const now = new Date();
@@ -162,6 +172,16 @@ function dragOver(event) {
     event.preventDefault(); // Allow drop
 }
 
+// Toggle turn indicator
+function toggleTurn() {
+    const turnIndicator = document.getElementById('turn-indicator');
+    if (currentTurn == 'white') {
+        turnIndicator.textContent = "White's Turn";
+    } else {
+        turnIndicator.textContent = "Black's Turn";
+    }
+}
+
 // Drop event
 // Drop event (updated to handle all pieces)
 // Drop event (updated to handle all pieces for both colors)
@@ -173,12 +193,20 @@ function drop(event) {
         targetSquare = targetSquare.closest('.square');
     }
 
-    if (!targetSquare) return;
+    if (!targetSquare || !selectedPiece) return;
+
+    const pieceType = selectedPiece.dataset.piece;
+    const pieceColor = pieceType === pieceType.toUpperCase() ? 'white' : 'black';
+
+    // Check if it's the correct player's turn
+    if (pieceColor !== currentTurn) {
+        alert(`It's ${currentTurn}'s turn!`);
+        return;
+    }
 
     const endRow = parseInt(targetSquare.dataset.row);
     const endCol = parseInt(targetSquare.dataset.col);
 
-    const pieceType = selectedPiece.dataset.piece;
     const isValidMove = 
         (pieceType === 'P' && isValidPawnMove(startRow, startCol, endRow, endCol, 'P')) ||
         (pieceType === 'p' && isValidPawnMove(startRow, startCol, endRow, endCol, 'p')) ||
@@ -195,6 +223,11 @@ function drop(event) {
 
     if (isValidMove) {
         movePiece(selectedPiece, startRow, startCol, endRow, endCol);
+        // Switch turn after a successful move
+        currentTurn = currentTurn === 'white' ? 'black' : 'white';
+        // Toggle Turn Indicator
+        toggleTurn();
+
     } else {
         alert('Invalid move for this piece.');
     }

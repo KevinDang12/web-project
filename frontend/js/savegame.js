@@ -11,6 +11,7 @@ function saveGame() {
     const gameData = {
         gameId: `Game ${Date.now()}`, // Unique ID
         userId: JSON.parse(localStorage.getItem('user')).email,
+        currentTurn: localStorage.getItem('currentTurn'),
         player1,
         player2,
         gameTime,

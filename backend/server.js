@@ -151,6 +151,7 @@ function addBoard(filename, board) {
     if (!game) {
         let data = {
             gameId: gameId,
+            currentTurn: board.currentTurn,
             player1: board.player1,
             player2: board.player2,
             gameTime: board.gameTime,

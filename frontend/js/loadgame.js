@@ -57,6 +57,7 @@ async function loadGame(gameId) {
 
     localStorage.setItem('board', JSON.stringify(game.boardState)); // Save board state
     localStorage.setItem('players', JSON.stringify({ player1: game.player1, player2: game.player2 })); // Save player names
+    localStorage.setItem('currentTurn', game.currentTurn); // Save current turn
     window.location.href = 'chessgame.html'; // Redirect to the main game
 }
 

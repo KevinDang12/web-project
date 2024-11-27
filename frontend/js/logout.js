@@ -4,5 +4,6 @@ document.getElementById('logout').addEventListener('click', function(e) {
     localStorage.removeItem('user');
     localStorage.removeItem('board');
     localStorage.removeItem('players');
+    localStorage.removeItem('currentTurn');
     window.location.href = './login.html';
 });
