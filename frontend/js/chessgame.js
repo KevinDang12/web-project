@@ -174,11 +174,12 @@ function dragOver(event) {
 
 // Toggle turn indicator
 function toggleTurn() {
-    const turnIndicator = document.getElementById('turn-indicator');
+    const turnIndicator = document.getElementsByClassName('chessboard-container');
+
     if (currentTurn == 'white') {
-        turnIndicator.textContent = "White's Turn";
+        turnIndicator[0].style.backgroundColor = "white";
     } else {
-        turnIndicator.textContent = "Black's Turn";
+        turnIndicator[0].style.backgroundColor = "black";
     }
 }
 
@@ -426,6 +427,8 @@ async function movePiece(piece, startRow, startCol, endRow, endCol) {
 function resetGame() {
     // Clear the board and reset to the initial state
     localStorage.removeItem('board'); // Optionally clear saved state
+    localStorage.removeItem('currentTurn');
+    currentTurn = 'white';
     location.reload(); // Reload the page to restart the game
 }
 
@@ -435,4 +438,3 @@ function mainMenu() {
 
 // Run initialization on page load
 window.onload = initializeBoard;
-
