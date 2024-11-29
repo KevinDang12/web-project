@@ -29,7 +29,6 @@ document.getElementById('signInForm').addEventListener('submit', async function(
     });
 
     const data = await response.text();
-    console.log(data);
 
     if (!data) {
         alert('Invalid Email or Password');
@@ -53,7 +52,6 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
     });
 
     const data = await response.text();
-    console.log(data);
 
     if (!data || data == null) {
         fetch('http://localhost:5000/api/users', {
@@ -74,7 +72,6 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
             window.location.href = './mainmenu.html';
         })
     } else {
-        console.log('User already exists');
         alert('User already exists! Enter a different email address.');
     }
 });

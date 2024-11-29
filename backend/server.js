@@ -65,10 +65,8 @@ function verifyUser(filename, email, password) {
         const user = users.find((u) => u.email === email);
 
         if (!user || password != user.password) { // 404 object not found
-            console.log("User does not exist");
             return null;
         } else {
-            console.log("User exists");
             return user.email;
         }
     }
@@ -271,8 +269,6 @@ app.post('/api/boards', (req, res) => {
 
 app.delete('/api/boards', (req, res) => {
     deleteBoard(BOARDS_FILE, req.body.email, req.body.gameId);
-    console.log(req.body.email);
-    console.log(req.body.gameId);
     res.sendStatus(200);
 });
 

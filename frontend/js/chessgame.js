@@ -1,7 +1,6 @@
 // Redirect to save game page
 function saveGame() {
     const chessboard = document.getElementById('chessboard');
-    console.log(chessboard);
     let board = [];
 
     for (let row = 0; row < 8; row++) {
@@ -18,7 +17,6 @@ function saveGame() {
         }
         board.push(boardRow);
     }
-    console.log(board);
     localStorage.setItem('board', JSON.stringify(board));
     localStorage.setItem('currentTurn', currentTurn);
     window.location.href = 'savegame.html';
@@ -67,7 +65,6 @@ function initializeBoard() {
 
     if (board) {
         board = JSON.parse(board);
-        console.log(board);
         let index = 0;
         for (let row = 0; row < 8; row++) {
             for (let col = 0; col < 8; col++) {
@@ -75,8 +72,6 @@ function initializeBoard() {
                 index++;
             }
         }
-
-        console.log(initialBoard);
     }
 
     const chessboard = document.getElementById('chessboard');
@@ -133,8 +128,6 @@ async function saveScore(player1, player2, winner) {
         player2,
         winner
     };
-
-    console.log(gameData);
 
     await fetch('http://localhost:5000/api/scores', {
         method: 'POST',

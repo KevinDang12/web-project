@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { getUserEmail, verifyUser, getBoards, getScores } from "./server.js";
 
-describe('test of getUserEmail function', () => {
+describe('Test of getUserEmail function', () => {
     it('User should not exist', () => {
         expect(getUserEmail("./test/users_test.json", "test12@gmail.com")).toBe(null);
     })
@@ -11,7 +11,7 @@ describe('test of getUserEmail function', () => {
     })
 });
 
-describe('test of verifyUser function', () => {
+describe('Test of verifyUser function', () => {
     it('Verify that the email and password does not match', () => {
         expect(verifyUser("./test/users_test.json", "test@gmail.com", "12")).toBe(null);
     })
@@ -21,7 +21,7 @@ describe('test of verifyUser function', () => {
     })
 });
 
-describe('test of getBoards function', () => {
+describe('Test of getBoards function', () => {
     it('Verify that the board does not exist', () => {
         expect(getBoards("./test/boards_test.json", "test12@gmail.com")).toBe(null);
     })
@@ -31,7 +31,7 @@ describe('test of getBoards function', () => {
     })
 });
 
-describe('test of getBoards function', () => {
+describe('Test of getBoards function', () => {
     it('Verify that the score does not exist', () => {
         expect(getScores("./test/scores_empty.json", "test12@gmail.com")).toBe(null);
     })

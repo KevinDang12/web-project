@@ -19,8 +19,6 @@ function saveGame() {
         boardState: JSON.parse(localStorage.getItem('board') || '[]') // Placeholder for current board
     };
 
-    console.log(gameData);
-
     fetch('http://localhost:5000/api/boards', {
         method: 'POST',
         headers: {
