@@ -1,14 +1,14 @@
-// Redirect to Main Menu when Back button is clicked
+
 document.getElementById("backToMenu").addEventListener("click", function() {
-    window.location.href = "mainmenu.html"; // Redirect to the Main Menu
+    window.location.href = "mainmenu.html"; 
 });
 
-// Display saved games from localStorage or server
+
 async function displaySavedGames() {
     const loadGameTable = document.getElementById('loadGameTable').getElementsByTagName('tbody')[0];
-    loadGameTable.innerHTML = ''; // Clear existing rows
+    loadGameTable.innerHTML = ''; 
     
-    // Get user email from localStorage
+   
     const email = JSON.parse(localStorage.getItem('user')).email;
 
     const response = await fetch('http://localhost:5000/api/boards/' + email, {
@@ -72,9 +72,12 @@ async function deleteGame(gameId) {
         body: JSON.stringify({email : email, gameId : gameId})
     });
 
+
     alert(gameId + " is Deleted");
+
     location.reload();
+
 }
 
-// Automatically display saved games on page load
+
 window.onload = displaySavedGames;

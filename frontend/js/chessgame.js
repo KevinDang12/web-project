@@ -27,9 +27,8 @@ function loadGame() {
     window.location.href = 'loadgame.html';
 }
 
-let currentTurn = localStorage.getItem('currentTurn') || 'white'; // Set the initial turn to white
+let currentTurn = localStorage.getItem('currentTurn') || 'white';
 
-// Board layout using abbreviations for each piece
 const initialBoard = [
     ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
     ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
@@ -41,7 +40,6 @@ const initialBoard = [
     ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
 ];
 
-// Load images for each piece type
 const pieceImages = {
     'P': '../images/white_pawn.png',
     'R': '../images/white_rook.png',
@@ -57,35 +55,29 @@ const pieceImages = {
     'k': '../images/black_king.png',
 };
 
-// Initialize the chessboard with pieces
 function initializeBoard() {
-
     let board = localStorage.getItem('board');
     toggleTurn();
 
     if (board) {
         board = JSON.parse(board);
-        let index = 0;
         for (let row = 0; row < 8; row++) {
             for (let col = 0; col < 8; col++) {
                 initialBoard[row][col] = board[row][col];
-                index++;
             }
         }
     }
 
     const chessboard = document.getElementById('chessboard');
-    chessboard.innerHTML = ''; // Clear existing squares if any
+    chessboard.innerHTML = '';
 
     for (let row = 0; row < 8; row++) {
         for (let col = 0; col < 8; col++) {
-            // Create square
             const square = document.createElement('div');
             square.className = 'square ' + ((row + col) % 2 === 0 ? 'light' : 'dark');
             square.dataset.row = row;
             square.dataset.col = col;
 
-            // Place piece if exists in the initial layout
             const piece = initialBoard[row][col];
             if (piece) {
                 const pieceImg = document.createElement('img');
@@ -97,13 +89,11 @@ function initializeBoard() {
                 pieceImg.dataset.row = row;
                 pieceImg.dataset.col = col;
 
-                // Event listeners for drag-and-drop
                 pieceImg.addEventListener('dragstart', dragStart);
                 pieceImg.addEventListener('dragend', dragEnd);
                 square.appendChild(pieceImg);
             }
 
-            // Allow drop on squares
             square.addEventListener('dragover', dragOver);
             square.addEventListener('drop', drop);
 
@@ -112,16 +102,8 @@ function initializeBoard() {
     }
 }
 
-/**
- * Save the game score to the node backend server
- * @param {*} player1 Name of player 1
- * @param {*} player2 Name of player 2
- * @param {*} winner The winner of the game
- */
 async function saveScore(player1, player2, winner) {
-
     const now = new Date();
-
     const gameData = {
         gameId: now.toLocaleDateString(),
         player1,
@@ -135,50 +117,35 @@ async function saveScore(player1, player2, winner) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(gameData)
-    })
+    });
 }
 
-// Variables to store current piece and its position
 let selectedPiece = null;
 let startRow, startCol;
 
-// Drag start event
 function dragStart(event) {
     selectedPiece = event.target;
     startRow = parseInt(selectedPiece.dataset.row);
     startCol = parseInt(selectedPiece.dataset.col);
-    selectedPiece.style.opacity = '0.5'; // Set opacity for drag effect
-    console.log("Drag started for piece:", selectedPiece.dataset.piece, "at", startRow, startCol); // Debug log
+    selectedPiece.style.opacity = '0.5';
 }
 
-// Drag end event
 function dragEnd() {
     if (selectedPiece) {
-        selectedPiece.style.opacity = '1'; // Reset opacity
-        console.log("Drag ended for piece:", selectedPiece.dataset.piece); // Debug log
+        selectedPiece.style.opacity = '1';
         selectedPiece = null;
     }
 }
 
-// Drag over event
 function dragOver(event) {
-    event.preventDefault(); // Allow drop
+    event.preventDefault();
 }
 
-// Toggle turn indicator
 function toggleTurn() {
     const turnIndicator = document.getElementsByClassName('chessboard-container');
-
-    if (currentTurn == 'white') {
-        turnIndicator[0].style.backgroundColor = "white";
-    } else {
-        turnIndicator[0].style.backgroundColor = "black";
-    }
+    turnIndicator[0].style.backgroundColor = currentTurn === 'white' ? 'white' : 'black';
 }
 
-// Drop event
-// Drop event (updated to handle all pieces)
-// Drop event (updated to handle all pieces for both colors)
 function drop(event) {
     event.preventDefault();
 
@@ -192,7 +159,6 @@ function drop(event) {
     const pieceType = selectedPiece.dataset.piece;
     const pieceColor = pieceType === pieceType.toUpperCase() ? 'white' : 'black';
 
-    // Check if it's the correct player's turn
     if (pieceColor !== currentTurn) {
         alert(`It's ${currentTurn}'s turn!`);
         return;
@@ -217,18 +183,12 @@ function drop(event) {
 
     if (isValidMove) {
         movePiece(selectedPiece, startRow, startCol, endRow, endCol);
-        // Switch turn after a successful move
         currentTurn = currentTurn === 'white' ? 'black' : 'white';
-        // Toggle Turn Indicator
         toggleTurn();
-
     } else {
         alert('Invalid move for this piece.');
     }
 }
-
-
-// Function for rook movement (horizontal or vertical)
 function isValidRookMove(startRow, startCol, endRow, endCol) {
     if (startRow !== endRow && startCol !== endCol) return false;
 
@@ -247,14 +207,12 @@ function isValidRookMove(startRow, startCol, endRow, endCol) {
     return true;
 }
 
-// Function for knight movement (L-shape)
 function isValidKnightMove(startRow, startCol, endRow, endCol) {
     const rowDiff = Math.abs(startRow - endRow);
     const colDiff = Math.abs(startCol - endCol);
     return (rowDiff === 2 && colDiff === 1) || (rowDiff === 1 && colDiff === 2);
 }
 
-// Function for bishop movement (diagonal)
 function isValidBishopMove(startRow, startCol, endRow, endCol) {
     if (Math.abs(startRow - endRow) !== Math.abs(startCol - endCol)) return false;
 
@@ -273,97 +231,59 @@ function isValidBishopMove(startRow, startCol, endRow, endCol) {
     return true;
 }
 
-// Function for queen movement (combines rook and bishop)
 function isValidQueenMove(startRow, startCol, endRow, endCol) {
     return isValidRookMove(startRow, startCol, endRow, endCol) || isValidBishopMove(startRow, startCol, endRow, endCol);
 }
 
-// Function for king movement (one square in any direction)
 function isValidKingMove(startRow, startCol, endRow, endCol) {
     const rowDiff = Math.abs(startRow - endRow);
     const colDiff = Math.abs(startCol - endCol);
     return rowDiff <= 1 && colDiff <= 1;
 }
 
-
-// Move piece to new position
 function movePiece(piece, startRow, startCol, endRow, endCol) {
-    // Update board array
     initialBoard[endRow][endCol] = piece.dataset.piece;
     initialBoard[startRow][startCol] = '';
 
-    // Update piece position in DOM
     const endSquare = document.querySelector(`.square[data-row="${endRow}"][data-col="${endCol}"]`);
     if (endSquare) {
-        endSquare.appendChild(piece); // Move piece to new square
+        endSquare.appendChild(piece);
         piece.dataset.row = endRow;
         piece.dataset.col = endCol;
-        console.log("Piece moved to:", endRow, endCol); // Debug log
+        console.log("Piece moved to:", endRow, endCol);
     } else {
         console.error("Target square not found.");
     }
 }
 
-// Validate pawn moves (white pawns only as example)
-// Validate pawn moves for both white ('P') and black ('p') pawns
-// Validate pawn moves for both white ('P') and black ('p') pawns
-// Validate pawn moves for both white ('P') and black ('p') pawns
 function isValidPawnMove(startRow, startCol, endRow, endCol, pieceType) {
-    const direction = pieceType === 'P' ? -1 : 1; // White pawns move up (-1), black pawns move down (+1)
-    const startingRow = pieceType === 'P' ? 6 : 1; // White pawns start at row 6, black pawns at row 1
+    const direction = pieceType === 'P' ? -1 : 1;
+    const startingRow = pieceType === 'P' ? 6 : 1;
 
     const rowDiff = endRow - startRow;
     const colDiff = endCol - startCol;
 
-    const destinationPiece = initialBoard[endRow][endCol]; // Get the piece at the destination square
-    const isCapture = destinationPiece && isOpponentPiece(pieceType, destinationPiece); // Check if the move captures an opponent piece
+    const destinationPiece = initialBoard[endRow][endCol];
+    const isCapture = destinationPiece && isOpponentPiece(pieceType, destinationPiece);
 
-    // Forward move by one square (not capturing)
-    if (
-        colDiff === 0 && // Same column
-        rowDiff === direction && // One step forward
-        !destinationPiece // Square must be empty for a regular move
-    ) {
+    if (colDiff === 0 && rowDiff === direction && !destinationPiece) {
         return true;
     }
 
-    // Forward move by two squares from starting position (not capturing)
-    if (
-        colDiff === 0 && // Same column
-        rowDiff === 2 * direction && // Two steps forward
-        startRow === startingRow && // From starting position
-        !destinationPiece && // Square must be empty
-        !initialBoard[startRow + direction][startCol] // Ensure square in-between is also empty
-    ) {
+    if (colDiff === 0 && rowDiff === 2 * direction && startRow === startingRow && !destinationPiece && !initialBoard[startRow + direction][startCol]) {
         return true;
     }
 
-    // Diagonal capture
-    if (
-        Math.abs(colDiff) === 1 && // One column difference
-        rowDiff === direction && // One step forward diagonally
-        isCapture // Must be capturing an opponent's piece
-    ) {
+    if (Math.abs(colDiff) === 1 && rowDiff === direction && isCapture) {
         return true;
     }
 
-    // Allow pawn to move diagonally to overlap any piece (like other pieces)
-    if (
-        Math.abs(colDiff) === 1 && // One column difference
-        rowDiff === direction && // One step forward diagonally
-        destinationPiece // Must have any piece at the destination (not empty)
-    ) {
+    if (Math.abs(colDiff) === 1 && rowDiff === direction && destinationPiece) {
         return true;
     }
 
-    // Invalid move
     return false;
 }
-
-
-
-
-
 
 function isOpponentPiece(pieceType, destinationPieceType) {
     const isWhitePiece = pieceType === pieceType.toUpperCase();
@@ -371,37 +291,31 @@ function isOpponentPiece(pieceType, destinationPieceType) {
     return isWhitePiece !== isDestinationWhite;
 }
 
-
-// Move piece to new position
 async function movePiece(piece, startRow, startCol, endRow, endCol) {
-    // Update board array
-    const capturedPiece = initialBoard[endRow][endCol]; // Check if there's a piece in the target square
+    const capturedPiece = initialBoard[endRow][endCol];
     initialBoard[endRow][endCol] = piece.dataset.piece;
     initialBoard[startRow][startCol] = '';
 
-    // Remove the captured piece from the DOM, if any
     if (capturedPiece) {
         const capturedPieceElement = document.querySelector(
             `.piece[data-row="${endRow}"][data-col="${endCol}"]`
         );
         if (capturedPieceElement) {
-            capturedPieceElement.remove(); // Remove the captured piece from the DOM
-            console.log(`Captured piece: ${capturedPiece}`); // Debug log
+            capturedPieceElement.remove();
+            console.log(`Captured piece: ${capturedPiece}`);
         }
     }
 
-    // Update piece position in DOM
     const endSquare = document.querySelector(`.square[data-row="${endRow}"][data-col="${endCol}"]`);
     if (endSquare) {
-        endSquare.appendChild(piece); // Move piece to new square
+        endSquare.appendChild(piece);
         piece.dataset.row = endRow;
         piece.dataset.col = endCol;
-        console.log("Piece moved to:", endRow, endCol); // Debug log
+        console.log("Piece moved to:", endRow, endCol);
     } else {
         console.error("Target square not found.");
     }
 
-    // Check if the king is captured
     if (capturedPiece === 'K' || capturedPiece === 'k') {
         let players = JSON.parse(localStorage.getItem('players'));
 
@@ -412,22 +326,19 @@ async function movePiece(piece, startRow, startCol, endRow, endCol) {
 
         await saveScore(player1, player2, winner);
         alert("Game over! The king has been captured.");
-        resetGame(); // Call a function to reset the game or end it
+        resetGame();
     }
 }
 
-// Function to reset the game (you can customize this)
 function resetGame() {
-    // Clear the board and reset to the initial state
-    localStorage.removeItem('board'); // Optionally clear saved state
+    localStorage.removeItem('board');
     localStorage.removeItem('currentTurn');
     currentTurn = 'white';
-    location.reload(); // Reload the page to restart the game
+    location.reload();
 }
 
 function mainMenu() {
-    window.location.href = "mainmenu.html"; // Redirect to the Main Menu
+    window.location.href = "mainmenu.html";
 }
 
-// Run initialization on page load
 window.onload = initializeBoard;
