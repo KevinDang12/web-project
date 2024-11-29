@@ -1,0 +1,39 @@
+The Web Devs:
+
+Kevin Dang - 218210344
+Hasan Iqbal - 
+
+Kevin's Contributions:
+- Worked on implementing the Node server.
+- Implemented Sign In/Sign Up functionality to authenticate users through the server and add new user accounts to the server.
+- Implemented Save functionality to save games from the client to the server.
+- Implemented Load functionality to load games from the server to the client.
+- Implemented Delete functionality to delete saved games from the server.
+- Implemented Scoreboard functionality to save scores to the server and load it from the server to the client.
+- Wrote JS test functions to verify some the functions used for the server.
+
+Hasan's Contributions:
+- 
+
+Important Note:
+- When implementing the website, there is an issue when testing it on Firefox as it does not allow session data to be
+stored correctly and using Firefox breaks the website. It works on other browsers like MS Edge or Chrome.
+
+- When running the backend server, make sure to change directory to the backend folder, using cd backend, and type in
+npm install to install all the packages for the backend. To run the server, you can use node server.js or npm run dev,
+which uses nodemon to run the server. Either one works.
+
+- When testing the website, make sure you run the node server since the site will not work without the server running. You
+should start off at the login.html page when you're testing the website and create a new account using signup. Any Email address, like
+username@example.com, would work as long as you include @example.com after the username.
+
+- The files are saved locally in the backend in .json files such as boards.json, scoreboard.json, and users.json.
+    - boards.json: Stores the user's saved gamedata
+    - scoreboard.json: Stores the matches and winner of each chess game
+    - users.json: Stores the list of emails and password of each account
+You would need to create an account, save a game, and win a match to see these files in the backend. The program assumes that
+it is the first time you are going to the website and the .json files have not been created yet.
+
+- If you decide to run the test files using vitest first and then you test the website using the server afterwards, it may cause
+an issue where you will not be able to stop the server using ctrl + c. You may have to terminate the terminal or close the IDE
+to stop the server.

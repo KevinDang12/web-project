@@ -9,6 +9,7 @@ body {
     margin: 0;
 }
 
+/* Scoreboard container */
 .scoreboard {
     display: flex;
     flex-direction: column;
@@ -32,6 +33,7 @@ h2 {
     margin-bottom: 20px;
 }
 
+/* Table for displaying scores */
 th, td {
     padding: 12px;
     text-align: center;
@@ -39,17 +41,20 @@ th, td {
     color: #f2f2f2;
 }
 
+/* Table header styling */
 th {
     background-color: #333;
     font-size: 16px;
 }
 
+/* Table data styling */
 td {
     background-color: #2b2b2b;
     font-size: 14px;
     width: 80%;
 }
 
+/* Back button styling */
 .back-button {
     padding: 10px 20px;
     background-color: #444;

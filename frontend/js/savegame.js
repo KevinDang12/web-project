@@ -1,4 +1,6 @@
-// Save game function
+/**
+ * Save the current game to the database
+ */
 function saveGame() {
     const players = JSON.parse(localStorage.getItem('players'));
     const player1 = players.player1;
@@ -16,7 +18,7 @@ function saveGame() {
         player2,
         gameTime,
         gameDate,
-        boardState: JSON.parse(localStorage.getItem('board') || '[]') // Placeholder for current board
+        boardState: JSON.parse(localStorage.getItem('board') || '[]')
     };
 
     fetch('http://localhost:5000/api/boards', {
@@ -32,10 +34,12 @@ function saveGame() {
 
     document.getElementById('gameForm').reset();
 
-    // Optionally, redirect back to the chess game or confirmation page
     window.location.href = 'chessgame.html';
 }
 
+/**
+ * Show the saved game preview
+ */
 function showSavePreview() {
     let player1 = document.getElementById('player1');
     let player2 = document.getElementById('player2');

@@ -1,9 +1,11 @@
-
+// Navigate to the main menu
 document.getElementById("backToMenu").addEventListener("click", function() {
     window.location.href = "mainmenu.html"; 
 });
 
-
+/**
+ * Displays the saved games in a table
+ */
 async function displaySavedGames() {
     const loadGameTable = document.getElementById('loadGameTable').getElementsByTagName('tbody')[0];
     loadGameTable.innerHTML = ''; 
@@ -42,7 +44,10 @@ async function displaySavedGames() {
     });
 }
 
-// Function to load a specific game
+/**
+ * Load a specific game
+ * @param {*} gameId The id of the game to load
+ */
 async function loadGame(gameId) {
     const email = JSON.parse(localStorage.getItem('user')).email;
 
@@ -61,6 +66,10 @@ async function loadGame(gameId) {
     window.location.href = 'chessgame.html'; // Redirect to the main game
 }
 
+/**
+ * Delete a saved game
+ * @param {*} gameId The id of the game to delete
+ */
 async function deleteGame(gameId) {
     const email = JSON.parse(localStorage.getItem('user')).email;
 
@@ -72,12 +81,10 @@ async function deleteGame(gameId) {
         body: JSON.stringify({email : email, gameId : gameId})
     });
 
-
-    alert(gameId + " is Deleted");
+    alert("Game is Deleted");
 
     location.reload();
-
 }
 
-
+// Display the saved games when the window loads
 window.onload = displaySavedGames;

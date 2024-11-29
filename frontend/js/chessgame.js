@@ -1,4 +1,6 @@
-// Redirect to save game page
+/**
+ * Redirect to save game page
+ */
 function saveGame() {
     const chessboard = document.getElementById('chessboard');
     let board = [];
@@ -22,13 +24,16 @@ function saveGame() {
     window.location.href = 'savegame.html';
 }
 
-// Redirect to load game page
+/**
+ * Redirect to load game page
+ */
 function loadGame() {
     window.location.href = 'loadgame.html';
 }
 
 let currentTurn = localStorage.getItem('currentTurn') || 'white';
 
+// Initial board setup
 const initialBoard = [
     ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
     ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
@@ -40,6 +45,7 @@ const initialBoard = [
     ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R'],
 ];
 
+// Image paths for each piece
 const pieceImages = {
     'P': '../images/white_pawn.png',
     'R': '../images/white_rook.png',
@@ -55,6 +61,9 @@ const pieceImages = {
     'k': '../images/black_king.png',
 };
 
+/**
+ * Initialize the chessboard
+ */
 function initializeBoard() {
     let board = localStorage.getItem('board');
     toggleTurn();
@@ -102,6 +111,12 @@ function initializeBoard() {
     }
 }
 
+/**
+ * Save the score of the game to the server
+ * @param {*} player1 Name of player 1
+ * @param {*} player2 Name of player 2
+ * @param {*} winner Name of the winner
+ */
 async function saveScore(player1, player2, winner) {
     const now = new Date();
     const gameData = {
@@ -111,6 +126,7 @@ async function saveScore(player1, player2, winner) {
         winner
     };
 
+    // Save the score to the server
     await fetch('http://localhost:5000/api/scores', {
         method: 'POST',
         headers: {
@@ -123,6 +139,10 @@ async function saveScore(player1, player2, winner) {
 let selectedPiece = null;
 let startRow, startCol;
 
+/**
+ * Hover effect when about to drag a piece
+ * @param {*} event Event object
+ */
 function dragStart(event) {
     selectedPiece = event.target;
     startRow = parseInt(selectedPiece.dataset.row);
@@ -130,6 +150,9 @@ function dragStart(event) {
     selectedPiece.style.opacity = '0.5';
 }
 
+/**
+ * Reset the opacity of the piece
+ */
 function dragEnd() {
     if (selectedPiece) {
         selectedPiece.style.opacity = '1';
@@ -137,15 +160,27 @@ function dragEnd() {
     }
 }
 
+/**
+ * Prevent the right-click menu from appearing
+ * @param {*} event Event object
+ */
 function dragOver(event) {
     event.preventDefault();
 }
 
+/**
+ * Update the indicator around the chess board to show whose turn it is
+ */
 function toggleTurn() {
     const turnIndicator = document.getElementsByClassName('chessboard-container');
     turnIndicator[0].style.backgroundColor = currentTurn === 'white' ? 'white' : 'black';
 }
 
+/**
+ * Check if the move is valid and move the piece
+ * @param {*} event Event object
+ * @returns If the move is not the correct turn, an alert will be shown
+ */
 function drop(event) {
     event.preventDefault();
 
@@ -189,6 +224,15 @@ function drop(event) {
         alert('Invalid move for this piece.');
     }
 }
+
+/**
+ * Check if the move is valid for a rook 
+ * @param {*} startRow Start row
+ * @param {*} startCol Start column
+ * @param {*} endRow End row
+ * @param {*} endCol End column
+ * @returns True if the move is valid, false otherwise
+ */
 function isValidRookMove(startRow, startCol, endRow, endCol) {
     if (startRow !== endRow && startCol !== endCol) return false;
 
@@ -207,6 +251,14 @@ function isValidRookMove(startRow, startCol, endRow, endCol) {
     return true;
 }
 
+/**
+ * Check if the move is valid for a knight
+ * @param {*} startRow Start row
+ * @param {*} startCol Start column
+ * @param {*} endRow End row
+ * @param {*} endCol End column
+ * @returns True if the move is valid, false otherwise
+ */
 function isValidKnightMove(startRow, startCol, endRow, endCol) {
     const rowDiff = Math.abs(startRow - endRow);
     const colDiff = Math.abs(startCol - endCol);
@@ -231,16 +283,40 @@ function isValidBishopMove(startRow, startCol, endRow, endCol) {
     return true;
 }
 
+/**
+ * Check if the move is valid for a queen
+ * @param {*} startRow Start row
+ * @param {*} startCol Start column
+ * @param {*} endRow End row
+ * @param {*} endCol End column
+ * @returns True if the move is valid, false otherwise
+ */
 function isValidQueenMove(startRow, startCol, endRow, endCol) {
     return isValidRookMove(startRow, startCol, endRow, endCol) || isValidBishopMove(startRow, startCol, endRow, endCol);
 }
 
+/**
+ * Check if the move is valid for a king
+ * @param {*} startRow Start row
+ * @param {*} startCol Start column
+ * @param {*} endRow End row
+ * @param {*} endCol End column
+ * @returns True if the move is valid, false otherwise
+ */
 function isValidKingMove(startRow, startCol, endRow, endCol) {
     const rowDiff = Math.abs(startRow - endRow);
     const colDiff = Math.abs(startCol - endCol);
     return rowDiff <= 1 && colDiff <= 1;
 }
 
+/**
+ * Move the piece to the target square
+ * @param {*} piece The piece to move
+ * @param {*} startRow Start row
+ * @param {*} startCol Start column
+ * @param {*} endRow End row
+ * @param {*} endCol End column
+ */
 function movePiece(piece, startRow, startCol, endRow, endCol) {
     initialBoard[endRow][endCol] = piece.dataset.piece;
     initialBoard[startRow][startCol] = '';
@@ -256,6 +332,15 @@ function movePiece(piece, startRow, startCol, endRow, endCol) {
     }
 }
 
+/**
+ * Check if the move is valid for a pawn
+ * @param {*} startRow Start row
+ * @param {*} startCol Start column
+ * @param {*} endRow End row
+ * @param {*} endCol End column
+ * @param {*} pieceType White or black pawn
+ * @returns True if the move is valid, false otherwise
+ */
 function isValidPawnMove(startRow, startCol, endRow, endCol, pieceType) {
     const direction = pieceType === 'P' ? -1 : 1;
     const startingRow = pieceType === 'P' ? 6 : 1;
@@ -285,12 +370,26 @@ function isValidPawnMove(startRow, startCol, endRow, endCol, pieceType) {
     return false;
 }
 
+/**
+ * Check if the piece is an opponent piece when capturing
+ * @param {*} pieceType White or black piece
+ * @param {*} destinationPieceType The piece type of the destination square
+ * @returns True if the piece is an opponent piece, false otherwise
+ */
 function isOpponentPiece(pieceType, destinationPieceType) {
     const isWhitePiece = pieceType === pieceType.toUpperCase();
     const isDestinationWhite = destinationPieceType === destinationPieceType.toUpperCase();
     return isWhitePiece !== isDestinationWhite;
 }
 
+/**
+ * Move the piece to the target square and capture the opponent piece if necessary
+ * @param {*} piece Piece to move
+ * @param {*} startRow Start row
+ * @param {*} startCol Start column
+ * @param {*} endRow End row
+ * @param {*} endCol End column
+ */
 async function movePiece(piece, startRow, startCol, endRow, endCol) {
     const capturedPiece = initialBoard[endRow][endCol];
     initialBoard[endRow][endCol] = piece.dataset.piece;
@@ -330,6 +429,9 @@ async function movePiece(piece, startRow, startCol, endRow, endCol) {
     }
 }
 
+/**
+ * Reset the game to the initial state
+ */
 function resetGame() {
     localStorage.removeItem('board');
     localStorage.removeItem('currentTurn');
@@ -337,8 +439,12 @@ function resetGame() {
     location.reload();
 }
 
+/**
+ * Redirect to the main menu
+ */
 function mainMenu() {
     window.location.href = "mainmenu.html";
 }
 
+// Initialize the board when the window loads
 window.onload = initializeBoard;

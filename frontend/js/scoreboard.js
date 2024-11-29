@@ -1,3 +1,6 @@
+/**
+ * Get the scores from the server
+ */
 async function getScore() {
     const response = await fetch('http://localhost:5000/api/scores', {
         method: 'GET',
@@ -20,7 +23,9 @@ async function getScore() {
     });
 }
 
-// Redirect to Main Menu when Back button is clicked
+/**
+ * Redirect to the main menu when the back button is clicked
+ */
 document.getElementById("backToMenu").addEventListener("click", function() {
-    window.location.href = "mainmenu.html"; // Redirect to the Main Menu
+    window.location.href = "mainmenu.html";
 });

@@ -10,6 +10,7 @@ body {
     margin: 0;
 }
 
+/* Load Table showing saved games */
 .loadTable {
     display: flex;
     flex-direction: column;
@@ -39,6 +40,7 @@ h2 {
     margin: 20px 0;
 }
 
+/* Elements for each saved data */
 th, td {
     padding: 12px;
     text-align: center;
@@ -56,6 +58,7 @@ td {
     font-size: 14px;
 }
 
+/* Button Styling for load button */
 .load-button {
     padding: 8px 16px;
     background-color: #00acee;
@@ -71,6 +74,7 @@ td {
     background-color: #008bb5;
 }
 
+/* Button Styling for delete button */
 .delete-button {
     padding: 8px 16px;
     background-color: #ff3333;
@@ -86,6 +90,7 @@ td {
     background-color: #cc0000;
 }
 
+/* Back button styling */
 .back-button {
     padding: 10px 20px;
     background-color: #444;

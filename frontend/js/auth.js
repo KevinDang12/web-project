@@ -1,5 +1,7 @@
-// auth.js
-
+/**
+ * Allows the user to switch between the sign in and sing up forms
+ * @param {*} formId The id of the form to display
+ */
 function showForm(formId) {
     const forms = document.querySelectorAll('.auth-form');
     forms.forEach(form => form.style.display = 'none');
@@ -15,7 +17,9 @@ function showForm(formId) {
     document.getElementById('form-title').innerText = titleMap[formId];
 }
 
-// For further backend integration, you can add listeners to handle form submissions
+/**
+ * Handles the sign in form submission
+ */
 document.getElementById('signInForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const email = document.getElementById('signin-email').value;
@@ -39,6 +43,9 @@ document.getElementById('signInForm').addEventListener('submit', async function(
     }
 });
 
+/**
+ * Handles the sign up form submission
+ */
 document.getElementById('signUpForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const email = document.getElementById('signup-email').value;

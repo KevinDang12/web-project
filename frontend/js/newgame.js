@@ -1,3 +1,4 @@
+// Initiate a new game by storing the player names in local storage and redirecting to the game page
 document.getElementById('start-game').addEventListener('click', function(e) {
     e.preventDefault();
     const player1 = document.getElementById('player1').value;
