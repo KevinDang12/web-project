@@ -1,7 +1,7 @@
 The Web Devs:
 
 Kevin Dang - 218210344
-Hasan Iqbal - 
+Hasan Iqbal - 221089784
 
 Kevin's Contributions:
 - Worked on implementing the Node server.
@@ -13,7 +13,14 @@ Kevin's Contributions:
 - Wrote JS test functions to verify some the functions used for the server.
 
 Hasan's Contributions:
-- 
+- Created chessboard with a matrix of pieces and their respective positions.
+- Defined each Chess Piece movement and boundaries based on real life chess rules with soem by combining logic of others. 
+- Implemented logic for load game and save game functionality into local json files.
+- Linked pages together for seamless UI experience and added aniamtions to buttons and chess game hover aniamtions aswell
+- Implemented drag and drop functionality to chess game as well as winning game functionaility.
+- Implemented game's state constantly so save game feature works seamlessly after beign stored in localStorage.
+
+
 
 Important Note:
 - When implementing the website, there is an issue when testing it on Firefox as it does not allow session data to be
