@@ -20,9 +20,9 @@ Hasan's Contributions:
 - Implemented drag and drop functionality to chess game as well as winning game functionaility.
 - Implemented game's state constantly so save game feature works seamlessly after beign stored in localStorage.
 
-
-
 Important Note:
+- You can also access the code from GitHub at https://github.com/KevinDang12/web-project
+
 - When implementing the website, there is an issue when testing it on Firefox as it does not allow session data to be
 stored correctly and using Firefox breaks the website. It works on other browsers like MS Edge or Chrome.
 
