@@ -1,0 +1,87 @@
+/* Header position */
+.header {
+    background: linear-gradient(90deg, #464daf, #6a79d4); /* Subtle gradient for a modern look */
+    height: 4.5em;
+    line-height: 4em;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; /* Align items to the right */
+    align-items: center;
+    position: fixed;
+    top: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add a shadow for depth */
+    z-index: 1000; /* Ensure header is on top */
+}
+
+/* Header left styling (if needed for future use) */
+.header-left {
+    display: flex;
+    list-style-type: none;
+    align-items: center;
+    padding: 0 1em;
+}
+
+#logout {
+    margin-left: auto; /* Push logout to the far right */
+    justify-self: end;
+    font-family: sans-serif;
+    font-size: 2em;
+    padding: 10px;
+    width: 100px;
+    height: 50px;
+    background-color: #f2f2f2;
+    border: none;
+    border-radius: 35%;
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-right: 1em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    transition: all 0.3s ease; /* Smooth transition effects */
+}
+
+/* Hover and Active States for Logout */
+#logout:hover {
+    background: linear-gradient(135deg, #d6d6d6, #bfbfbf); /* Darker gradient on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhance shadow */
+    color: #ffffff; /* White text on hover */
+}
+
+#logout:active {
+    transform: scale(0.95); /* Button press feedback */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Reduce shadow on click */
+    background: #bfbfbf; /* Subtle tactile change */
+}
+
+#logout {
+    margin-left: auto; /* Push logout to the far right */
+    justify-self: end;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.2em; /* Slightly smaller for modern aesthetics */
+    padding: 0.5em 1em; /* Adjust padding for better button size */
+    width: auto; /* Remove fixed width for responsiveness */
+    height: auto; /* Remove fixed height for flexibility */
+    background: linear-gradient(135deg, #f2f2f2, #d6d6d6); /* Subtle gradient for button */
+    color: #464daf; /* Match header tone */
+    border: none;
+    border-radius: 25px; /* Rounded but less oval */
+    cursor: pointer;
+    font-size: 1.2em;
+    margin-right: 1em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    transition: all 0.3s ease; /* Smooth transition effects */
+}
+
+/* Hover and Active States for Logout */
+#logout:hover {
+    background: linear-gradient(135deg, #d6d6d6, #bfbfbf); /* Darker gradient on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhance shadow */
+    color: #ffffff; /* White text on hover */
+}
+
+#logout:active {
+    transform: scale(0.95); /* Button press feedback */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Reduce shadow on click */
+    background: #bfbfbf; /* Subtle tactile change */
+}

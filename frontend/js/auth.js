@@ -1,5 +1,7 @@
-// auth.js
-
+/**
+ * Allows the user to switch between the sign in and sing up forms
+ * @param {*} formId The id of the form to display
+ */
 function showForm(formId) {
     const forms = document.querySelectorAll('.auth-form');
     forms.forEach(form => form.style.display = 'none');
@@ -15,7 +17,9 @@ function showForm(formId) {
     document.getElementById('form-title').innerText = titleMap[formId];
 }
 
-// For further backend integration, you can add listeners to handle form submissions
+/**
+ * Handles the sign in form submission
+ */
 document.getElementById('signInForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const email = document.getElementById('signin-email').value;
@@ -29,7 +33,6 @@ document.getElementById('signInForm').addEventListener('submit', async function(
     });
 
     const data = await response.text();
-    console.log(data);
 
     if (!data) {
         alert('Invalid Email or Password');
@@ -40,6 +43,9 @@ document.getElementById('signInForm').addEventListener('submit', async function(
     }
 });
 
+/**
+ * Handles the sign up form submission
+ */
 document.getElementById('signUpForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const email = document.getElementById('signup-email').value;
@@ -53,9 +59,8 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
     });
 
     const data = await response.text();
-    console.log(data);
 
-    if (!data) {
+    if (!data || data == null) {
         fetch('http://localhost:5000/api/users', {
             method: 'POST',
             headers: {
@@ -67,18 +72,13 @@ document.getElementById('signUpForm').addEventListener('submit', async function(
             })
         })
         .then(response => response.json())
-        .then(data => {
+        .then(() => {
             alert('User created successfully');
-            const user = { email: data, signedIn: true };
+            const user = { email: email, signedIn: true };
             localStorage.setItem('user', JSON.stringify(user));
             window.location.href = './mainmenu.html';
         })
     } else {
-        console.log('User already exists');
         alert('User already exists! Enter a different email address.');
     }
 });
-
-// document.getElementById('signOut').addEventListener('click', function() {
-//     localStorage.removeItem('user');
-// });

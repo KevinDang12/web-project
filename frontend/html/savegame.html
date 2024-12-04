@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<!-- Save the game to the backend server -->
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Save Chess Game</title>
+  <link rel="stylesheet" href="../css/savegame.css">
+</head>
+<body onload="showSavePreview()">
+  <div class="save-game-container">
+    <h2>Save Chess Game</h2>
+
+    <!-- Player Input Form -->
+    <form id="gameForm">
+      <label for="player1">Black Team:</label>
+      <p id="player1">Player 1</p>
+      
+      <label for="player2">White Team:</label>
+      <p id="player2">Player 2</p>
+
+      <label for="date">Date:</label>
+      <p id="date">YYYY/MM/DD</p>
+      
+      <label for="time">Time:</label>
+      <p id="time">##:##:##</p>
+      
+      <input type="button" value="Save Game" onclick="saveGame()">
+    </form>
+  </div>
+
+  <script src="../js/savegame.js"></script>
+</body>
+</html>

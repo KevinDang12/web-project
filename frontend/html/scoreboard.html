@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<!-- Scoreboard page to show a list of games from the backend server -->
+
+<html lang="En">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Scoreboard</title>
+  <link rel="stylesheet" type="text/css" href="../css/scoreboard.css" title="style" /> 
+  <link rel="stylesheet" type="text/css" href="../css/header.css" title="style" />
+</head>
+
+<body onload="getScore()">
+    <div class="header">
+        <ul class="header-left">
+            <li class="logo">
+                <button id="logout">Logout</button>
+            </li>
+        </ul>
+    </div>
+    <div class="scoreboard-container">
+        <h2>Scoreboard</h2>
+        <button id="backToMenu" class="back-button">Back to Main Menu</button>
+        <div class="scoreboard">
+            <table id="scoreboardTable">
+                <thead>
+                    <tr>
+                        <th>Game</th>
+                        <th>Winner</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Scoreboard will be dynamically loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="../js/scoreboard.js"></script>
+    <script src="../js/logout.js"></script>
+</body>
+</html>

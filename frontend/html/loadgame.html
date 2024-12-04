@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<!-- Show a list of games from the backend server -->
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Load Game</title>
+  <link rel="stylesheet" href="../css/loadgame.css">
+</head>
+<body>
+  <div class="loadgame-container">
+    <h2>Load Game</h2>
+
+    <!-- Back button to return to Main Menu -->
+    <button id="backToMenu" class="back-button">Back to Main Menu</button>
+
+    <div class="loadTable">
+      <!-- Table of saved games -->
+      <table id="loadGameTable">
+        <thead>
+          <tr>
+            <th>Player 1</th>
+            <th>Player 2</th>
+            <th>Game Time</th>
+            <th>Game Date</th>
+            <th>Load</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Saved games will be dynamically loaded here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="../js/loadgame.js"></script>
+</body>
+</html>

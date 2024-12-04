@@ -1,0 +1,114 @@
+/* General body styling */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Trebuchet MS', sans-serif;
+    background-color: #121212; /* Deep charcoal background for high contrast */
+    color: #e0e0e0; /* Light off-white text for readability */
+}
+
+/* Game container */
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    padding: 20px;
+    background: linear-gradient(145deg, #5c42a3, #502c68); /* Gradient for a striking effect */
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Profile section */
+.profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 2px solid #ffb85c; /* Highlighted border for profile picture */
+}
+
+/* Chessboard container styling */
+.chessboard-container {
+    display: flex;
+    justify-content: center;
+    background-color: #311d4b; /* Rich plum background for contrast */
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Chessboard grid styling */
+.chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, 60px);
+    grid-template-rows: repeat(8, 60px);
+    border: 2px solid #a17ff5; /* Vibrant lavender border for the board */
+}
+
+/* Square styling */
+.square {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease; /* Slight hover effect */
+}
+
+.square.light {
+    background-color: #ffe5b4; /* Warm peach for light squares */
+}
+
+.square.dark {
+    background-color: #935cbb; /* Bold purple for dark squares */
+}
+
+.square:hover {
+    transform: scale(1.05); /* Subtle scaling effect on hover */
+}
+
+/* Piece styling */
+.piece {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: transform 0.2s ease; /* Smooth scaling on hover */
+}
+
+.piece:hover {
+    transform: scale(1.1); /* Slight enlargement for interaction feedback */
+}
+
+/* Button container and styling */
+.button-container {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+.button-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(145deg, #005f73, #0a9396); /* Teal gradient for buttons */
+    color: #f0f0f0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.button-container button:hover {
+    background: linear-gradient(145deg, #0a9396, #005f73); /* Reverse gradient on hover */
+    transform: scale(1.05); /* Slight pop-out effect */
+}
