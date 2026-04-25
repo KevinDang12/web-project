@@ -1,15 +1,28 @@
 {
-  "name": "project",
+  "name": "web-project-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
+  "description": "Express backend for the Chess Web App — auth, save/load, and scoreboard REST APIs backed by JSON files.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server"
+    "start": "node server.js",
+    "dev": "nodemon server",
+    "test": "npx vitest"
   },
-  "keywords": [],
+  "keywords": [
+    "chess",
+    "express",
+    "nodejs",
+    "rest-api",
+    "full-stack",
+    "authentication",
+    "crud"
+  ],
   "author": "",
-  "license": "ISC",
-  "description": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KevinDang12/web-project.git"
+  },
   "devDependencies": {
     "nodemon": "^3.1.7"
   },
