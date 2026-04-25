@@ -2,3 +2,14 @@
 /backend/boards.json
 /backend/users.json
 /backend/scoreboard.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs and env
+*.log
+.env
+.env.local
