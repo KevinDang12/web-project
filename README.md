@@ -117,18 +117,19 @@ web-project/
 
 ## Contributors
 
-This is a team project. Three people worked on it:
+A two-person team project:
 
-- <!-- TODO: your name --> — chess engine work: 8×8 piece matrix, per-piece movement rules, boundary and capture logic, drag-and-drop, win detection, localStorage-backed game state. _GitHub: TODO · LinkedIn: TODO_
-- **Kevin Dang** ([@KevinDang12](https://github.com/KevinDang12)) — Node/Express server, sign-in and sign-up, save / load / delete endpoints, scoreboard API, Vitest tests. Repo owner.
-- **Hasan Iqbal** ([@redhasanh1](https://github.com/redhasanh1)) — co-contributor on the frontend per the original team notes.
+- **Hasan Iqbal** ([@redhasanh1](https://github.com/redhasanh1)) — chess engine lead. Built the 8×8 piece matrix, implemented per-piece movement rules and boundary/capture logic, wired up drag-and-drop with hover animations, win detection, page linking, and localStorage-backed game state. <!-- TODO: add LinkedIn / portfolio URL -->
+- **Kevin Dang** ([@KevinDang12](https://github.com/KevinDang12)) — backend lead (repo owner). Built the Node/Express server, sign-in / sign-up, save / load / delete endpoints, scoreboard API, and Vitest tests.
 
-### My contributions in this repo
+### My role (Hasan)
 
-<!-- TODO: expand with 3-5 short bullets in your own words. Recruiters read this. Examples you can steal: -->
-- Built the chess engine: modeled the board as an 8×8 matrix and implemented movement rules for every piece type.
-- Wrote the drag-and-drop interaction layer, including hover animations and legal-move feedback.
-- Handled game state: saving to `localStorage` between moves and syncing to the server on explicit save.
+Recruiter skim: the code below is what **I** specifically wrote on this project.
+
+- **Chess engine** — board modeled as an 8×8 matrix of piece objects; each piece type has its own movement rules (bishop diagonals, knight L-shapes, pawn first-move + capture, etc.); every move validated against position, boundaries, and occupying pieces.
+- **Drag-and-drop interaction layer** — picking up a piece, legal-square feedback, hover animations, smooth board state update on drop.
+- **Win detection + game state** — end-of-game check on every move; game state persisted to `localStorage` between moves and synced to the server on save.
+- **Frontend flow** — linked the login / main menu / new game / save game / load game / scoreboard pages together for a seamless UX.
 
 ## License
 
